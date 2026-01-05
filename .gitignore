@@ -1,0 +1,10 @@
+# Ignore node_modules in all subfolders
+**/node_modules
+
+# Ignore environment variables
+.env
+**/.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
