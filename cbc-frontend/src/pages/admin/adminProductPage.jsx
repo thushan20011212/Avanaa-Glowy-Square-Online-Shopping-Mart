@@ -16,7 +16,7 @@ export default function AdminProductPage() {
     return (
 
     <div className="w-full h-full max-h-full overflow-y-scroll">
-        <table>
+        <table className="w-full text-center">
             <thead>
                 <tr>
                     <th>Product ID</th>

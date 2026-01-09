@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import userRouter from './routes/userRouter.js';
+import productRouter from './routes/productRouter.js';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -46,7 +47,7 @@ then(() => {
 });
 
 app.use('/api/user', userRouter);
-
+app.use('/api/product', productRouter);
 
 function serverSuccessfullyStarted() {
     console.log('Server is running on port 5001');
