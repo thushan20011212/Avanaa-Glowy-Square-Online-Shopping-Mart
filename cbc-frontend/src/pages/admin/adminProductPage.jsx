@@ -1,8 +1,9 @@
-import { use, useState } from "react";
+import { useEffect , useState } from "react";
+import axios from "axios";
 
 export default function AdminProductPage() {
-  
-    const [products, setProducts] = useState(sample);
+
+    const [products, setProducts] = useState([]);
 
     useEffect(
         () => { 
