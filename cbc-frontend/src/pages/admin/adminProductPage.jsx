@@ -16,7 +16,8 @@ export default function AdminProductPage() {
   
     return (
 
-    <div className="w-full h-full max-h-full overflow-y-scroll">
+    <div className="w-full h-full max-h-full overflow-y-scroll relative">
+        <Link to="admin/addProduct" className="absolute cursor-pointer text-xl bottom-5 right-5 bg-green-500 text-white font-bold py-2 px-4 rounded text-center flex justify-center items-center">+</Link>
         <table className="w-full text-center">
             <thead>
                 <tr>
