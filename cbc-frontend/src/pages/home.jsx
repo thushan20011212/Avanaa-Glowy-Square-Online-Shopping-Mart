@@ -1,18 +1,19 @@
-import { Route } from "react-router-dom";
-import Header from "../components/Header";
+import { Routes, Route } from "react-router-dom";
+import Header from "../components/Header.jsx";
+import ProductPage from "./client/productPage.jsx";
 
 
 
 export default function HomePage() {
   return (
     <div className="w-full h-screen flex flex-col items-center">
-        <Header />
+        <Header/>
         <div className="w-full h-[calc(100vh-80px)] flex flex-col items-center">
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
+                <Route path="/" element={<h1>Home </h1>} />
+                <Route path="/products" element={<ProductPage />} />
+                <Route path="/about" element={<h1>About </h1>} />
+                <Route path="/contact" element={<h1>Contact </h1>} />
                 <Route path="*" element={<h1>404 not found</h1>} />
             </Routes>
         </div>

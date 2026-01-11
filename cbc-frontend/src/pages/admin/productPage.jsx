@@ -1,6 +1,9 @@
-import { useEffect , useState , useNavigate } from "react";
+import { useEffect , useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { FaEdit } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function ProductPage() {
 
@@ -31,7 +34,7 @@ export default function ProductPage() {
 
         axios.delete(import.meta.env.VITE_BACKEND_URL + "/api/products/"+ProductId , {
             headers : {
-                "Authorization" : "Barer "+token
+                "Authorization" : "Bearer "+token
             }
         }).then((res) => {
             toast.success("Product Deleted Successfully")

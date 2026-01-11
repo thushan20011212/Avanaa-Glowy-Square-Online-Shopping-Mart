@@ -1,7 +1,8 @@
 import { useState } from "react"
-import ProductPage from "./productPage.jsx";
+import { useLocation, useNavigate, Link } from "react-router-dom"
+import axios from "axios"
 import toast from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
+import { mediaUpload } from "../../utils/mediaUpload"
 
 
 
@@ -54,7 +55,7 @@ export default function EditProductPage() {
             }
             axios.put(import.meta.env.VITE_BACKEND_URL + "/api/products/"+productId , product , {
                 headers : {
-                    "Authorization" : "Barer "+token
+                    "Authorization" : "Bearer "+token
                 }
             }).then((res) => {
                 toast.success("Product Updated Successfully")
@@ -67,6 +68,7 @@ export default function EditProductPage() {
         } catch(e){
             console.log(e);
         }
+    }
 
     return (
         <div className="w-full h-full flex-col justify-center items-center">
@@ -85,6 +87,4 @@ export default function EditProductPage() {
             </div>
         </div>
     )
-    }
-
 }

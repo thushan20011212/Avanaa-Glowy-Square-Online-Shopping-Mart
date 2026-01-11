@@ -33,4 +33,6 @@ export function mediaUpload(file){
             )
         }
     )
+    
+    return mediaUploadPromise;
 }

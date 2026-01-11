@@ -14,7 +14,7 @@ export default function RegisterPage() {
 
   async function handleRegister() {
     try {
-      await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/user/",
+      const response = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/user/",
         {
           email,
           firstName,
