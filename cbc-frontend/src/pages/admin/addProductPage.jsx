@@ -1,7 +1,8 @@
 import { useState } from "react"
-import AdminProductPage from "../pages/admin/productPage";
 import toast from "react-hot-toast"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
+import axios from "axios"
+import { mediaUpload } from "../../utils/mediaUpload"
 
 
 
@@ -36,7 +37,7 @@ export default function AddProductPage() {
             promisesArray[i] = mediaUpload(images[i]);
         }
         try{
-            const imageUrls = await promise.all(promisesArray);
+            const imageUrls = await Promise.all(promisesArray);
             console.log(imageUrls);
 
             const altNamesArray = altNames.split(",")
@@ -53,11 +54,11 @@ export default function AddProductPage() {
             }
             axios.post(import.meta.env.VITE_BACKEND_URL + "/api/products" , product , {
                 headers : {
-                    "Authorization" : "Barer "+token
+                    "Authorization" : "Bearer "+token
                 }
             }).then((res) => {
                 toast.success("Product Added Successfully")
-                navigate("admin/products")
+                navigate("/admin/products")
 
             }).catch((e) => {
                 toast.error(e.response.data.message)
@@ -66,6 +67,7 @@ export default function AddProductPage() {
         } catch(e){
             console.log(e);
         }
+    }
 
     return (
         <div className="w-full h-full flex-col justify-center items-center">
@@ -83,6 +85,4 @@ export default function AddProductPage() {
             </div>
         </div>
     )
-    }
-
 }

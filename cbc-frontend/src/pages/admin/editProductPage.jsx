@@ -1,5 +1,5 @@
 import { useState } from "react"
-import AdminProductPage from "../pages/admin/productPage";
+import ProductPage from "./productPage.jsx";
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 
@@ -57,7 +57,7 @@ export default function EditProductPage() {
                     "Authorization" : "Barer "+token
                 }
             }).then((res) => {
-                toast.success("Product Added Successfully")
+                toast.success("Product Updated Successfully")
                 navigate("admin/products")
 
             }).catch((e) => {

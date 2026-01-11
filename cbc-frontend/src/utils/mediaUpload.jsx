@@ -1,11 +1,11 @@
-import { createCleint } from "@supabase/supabase.js"
+import { createClient } from "@supabase/supabase-js"
 
 const url="https://trmgenkqkdglgnwherca.supabase.co"
 const key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRybWdlbmtxa2RnbGdud2hlcmNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgwMTMyOTQsImV4cCI6MjA4MzU4OTI5NH0.QJKjbOXJGO9hOKtf2EOnsmQJK_HvzfabOUVnLxPbC-U"
 
-const supabase = createCleint(url,key)
+const supabase = createClient(url,key)
 
-export default function mediaUpload(file){
+export function mediaUpload(file){
 
     const mediaUploadPromise = new Promise(
         (resolve,reject)=>{
