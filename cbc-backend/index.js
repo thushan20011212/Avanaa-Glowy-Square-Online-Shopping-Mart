@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 // MongoDB connection string - using SRV format (recommended by MongoDB Atlas)
-const MONGODB_URL = "mongodb+srv://user:123q@cluster0.4snqe6f.mongodb.net/cbc-backend?retryWrites=true&w=majority";
+const MONGODB_URL = "mongodb+srv://user:123mn@cluster0.4snqe6f.mongodb.net/cbc-backend?retryWrites=true&w=majority";
 const JWT_KEY = "cbc-batch-five@2025";
 
 app.use(cors());
