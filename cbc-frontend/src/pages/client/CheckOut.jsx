@@ -1,20 +1,24 @@
+import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { BiMinus , BiPlus , BiTrash } from "react-icons/bi";
-import { Link , useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 export default function CheckOutPage() {
-    const location = useLocation();
-    console.log(location.state.cart);
+    const location = useLocation()
+    console.log(location.state.cart)
 
-    const [cart, setCart] = useState(location.state?.cart || []);
+    const [cart, setCart] = useState(location.state?.cart || [])
+    const [phoneNumber, setPhoneNumber] = useState("")
+    const [address, setAddress] = useState("")
 
     function getTotal() {
         let total = 0;
         cart.forEach(item => {
-            total += item.price * item.qty;
-        });
-        return total;
+            total += item.price * item.qty
+        })
+        return total
     }
 
     function removeFromCart(productId) {
@@ -34,15 +38,58 @@ export default function CheckOutPage() {
         }
     }
 
+    async function placeOrder(){
+        const token = localStorage.getItem("token")
+        if(!token) {
+            toast.error("You need to be logged in to place an order.")
+            return
+        }
+
+        const orderInformation = {
+            products: [],
+            phone: phoneNumber,
+            address: address
+        }
+
+        for(let i=0; i<cart.length; i++) {
+            const item = {
+                productId: cart[i].productId,
+                qty: cart[i].qty
+            }
+            orderInformation.products[i] = item;
+        }
+
+        try{
+            const res = await axios.post(import.meta.env.VITE_API_URL + "/api/orders", orderInformation, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            });
+            toast.success("Order placed successfully!")
+            console.log(res.data)
+        } catch (err) {
+            console.error(err)
+            toast.error("Failed to place order.")
+            return
+        }
+
+    }
+
     return (
         <div className="w-full h-full flex flex-col items-center pt-4 relative">
-            <div className="w-[400px] h-[80px] shadow-2xl absolute top-1 right-1 flex flex-col items-start justify-start">
+            <div className="w-[400px] h-[80px] shadow-2xl absolute top-1 right-1 flex flex-col items-center justify-center p-1 gap-10">
                 <p className="text-2xl text-secondary font-bold">Total:
                     <span className="text-accent font-bold mx-2">
                         {getTotal().toFixed(2)}
                     </span>
                 </p>
-                <button className="text-white bg-accent px-4 py-2 rounded-lg hover:bg-secondary transition-all duration-300">
+                <div>
+                    <input type="text" placeholder="Phone Number" className="p-2 m-2 rounded-lg border-2 border-gray-300" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                </div>
+                <div>
+                    <input type="text" placeholder="Address" className="p-2 m-2 rounded-lg border-2 border-gray-300" value={address} onChange={(e) => setAddress(e.target.value)} />
+                </div>
+                <button className="text-white bg-accent px-4 py-2 rounded-lg hover:bg-secondary transition-all duration-300" onClick={placeOrder}>
                     Place Order
                 </button>
             </div>

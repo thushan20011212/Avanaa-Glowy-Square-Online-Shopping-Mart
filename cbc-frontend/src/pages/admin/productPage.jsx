@@ -1,96 +1,146 @@
-import { useEffect , useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-export default function ProductPage() {
+export default function AdminProductPage() {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const navigate = useNavigate();
-
-    useEffect(
-        () => { 
-            if(isLoading == true){
-                axios
-                .get(import.meta.env.VITE_BACKEND_URL + "/products")
-                .then((res) => {
-                    console.log(res.data);
-                    setProducts(res.data);
-                    setIsLoading(false);
-                });
-            }
-        }, [isLoading]
-    );
-
-    function deleteProduct(ProductId) {
-        const token = localStorage.getItem("token")
-        if(token == null){
-            toast.error("Please Login First")
-            return
-        }
-
-        axios.delete(import.meta.env.VITE_BACKEND_URL + "/api/products/"+ProductId , {
-            headers : {
-                "Authorization" : "Bearer "+token
-            }
-        }).then((res) => {
-            toast.success("Product Deleted Successfully")
-            setIsLoading(true)
-        }).catch((e) => {
-            toast.error(e.response.data.message)
+  useEffect(() => {
+    if (isLoading) {
+      axios
+        .get(import.meta.env.VITE_BACKEND_URL + "/products")
+        .then((res) => {
+          setProducts(res.data);
+          setIsLoading(false);
         })
+        .catch(() => {
+          toast.error("Failed to load products");
+          setIsLoading(false);
+        });
+    }
+  }, [isLoading]);
+
+  function deleteProduct(productId) {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Please login first");
+      return;
     }
 
-    return (
+    if (!window.confirm("Are you sure you want to delete this product?")) return;
 
-    <div className="w-full h-full max-h-full overflow-y-scroll relative">
-        <Link to="admin/addProduct" className="absolute cursor-pointer text-xl bottom-5 right-5 bg-green-500 text-white font-bold py-2 px-4 rounded text-center flex justify-center items-center">+</Link>
+    axios
+      .delete(
+        import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId,
         {
-        isLoading ? 
-        <div className="w-full h-full flex justify-center items-center">
-            <div className="w-[70px] h-[70px] border-[5px] border-gray-300 border-t-yellow-400 rounded-full animate-spin"></div>
-        </div> :
-        <table className="w-full text-center">
-            <thead>
-                <tr>
-                    <th>Product ID</th>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>Labeled Price</th>
-                    <th>Price</th>
-                    <th>Stock</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {products.map(
-                    (item,index) => (
-                    <tr key={item.id}>
-                        <td>{item.ProductId}</td>
-                        <td>{item.name}</td>
-                        <td><img src={item.image[0]} className="w-[50px] h-[50px]"/></td>
-                        <td>{item.labelledPrice}</td>
-                        <td>{item.price}</td>
-                        <td>{item.stock}</td>
-                        <td>
-                            <div className="flex justify-center items-center w-full">
-                                <FaTrash onClick={() => deleteProduct(item.ProductId)} 
-                                className="text-[20px] text-red-500 mx-2 cursor-pointer"/>
-                                <FaEdit onClick={() => {
-                                    navigate("/admin/editProduct/" , {
-                                        state : item
-                                    })
-                                }} className="text-[20px] text-blue-500 mx-2 cursor-pointer"/>
-                            </div>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+          headers: { Authorization: "Bearer " + token },
         }
+      )
+      .then(() => {
+        toast.success("Product deleted successfully");
+        setIsLoading(true);
+      })
+      .catch((e) => {
+        toast.error(e.response?.data?.message || "Delete failed");
+      });
+  }
+
+  return (
+    <div className="w-full h-full p-6 overflow-y-auto relative">
+
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-secondary">
+          Product Management
+        </h1>
+
+        <Link
+          to="addProductPage"
+          className="bg-accent hover:bg-secondary hover:text-white transition px-5 py-2 rounded-lg font-semibold shadow"
+        >
+          + Add Product
+        </Link>
+      </div>
+
+      {/* Loading */}
+      {isLoading ? (
+        <div className="w-full h-[60vh] flex justify-center items-center">
+          <div className="w-[60px] h-[60px] border-4 border-gray-300 border-t-accent rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full border border-gray-200 rounded-lg overflow-hidden">
+            <thead className="bg-accent text-secondary">
+              <tr>
+                <th className="p-3">#</th>
+                <th className="p-3">Product ID</th>
+                <th className="p-3">Name</th>
+                <th className="p-3">Image</th>
+                <th className="p-3">Labelled Price</th>
+                <th className="p-3">Price</th>
+                <th className="p-3">Stock</th>
+                <th className="p-3">Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {products.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="p-6 text-center text-gray-500">
+                    No products found
+                  </td>
+                </tr>
+              ) : (
+                products.map((item, index) => (
+                  <tr
+                    key={item.ProductId}
+                    className="border-t hover:bg-gray-50 transition"
+                  >
+                    <td className="p-3">{index + 1}</td>
+                    <td className="p-3">{item.ProductId}</td>
+                    <td className="p-3 font-medium">{item.name}</td>
+
+                    <td className="p-3 flex justify-center">
+                      <img
+                        src={item.image?.[0]}
+                        alt={item.name}
+                        className="w-[50px] h-[50px] object-cover rounded"
+                      />
+                    </td>
+
+                    <td className="p-3">{item.labelledPrice}</td>
+                    <td className="p-3 font-semibold">{item.price}</td>
+                    <td className="p-3">{item.stock}</td>
+
+                    <td className="p-3">
+                      <div className="flex justify-center gap-4">
+                        <FaTrash
+                          className="text-red-500 cursor-pointer hover:scale-110 transition"
+                          onClick={() => deleteProduct(item.ProductId)}
+                        />
+                        <FaEdit
+                          className="text-blue-500 cursor-pointer hover:scale-110 transition"
+                          onClick={() =>
+                            navigate(
+                              `/admin/editProductPage/${item.ProductId}`,
+                              { state: item }
+                            )
+                          }
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

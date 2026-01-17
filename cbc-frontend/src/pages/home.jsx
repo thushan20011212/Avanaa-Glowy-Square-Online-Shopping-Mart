@@ -3,7 +3,7 @@ import Header from "../components/header.jsx";
 import ProductPage from "./client/productPage.jsx";
 import ProductOverviewPage from "./client/productOverview.jsx";
 import CartPage from "./client/cartPage.jsx";
-import CheckOutPage from "./client/CheckOut.jsx";
+import CheckOutPage from "./client/checkOut.jsx";
 
 
 export default function HomePage() {
