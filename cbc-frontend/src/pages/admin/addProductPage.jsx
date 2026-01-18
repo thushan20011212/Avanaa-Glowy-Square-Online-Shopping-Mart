@@ -27,7 +27,13 @@ export default function AddProductPage() {
         }
 
         if (images.length <=0){
-            toast.error("Please Login First")
+            toast.error("Please select at least one image")
+            return
+        }
+
+        // Validate required fields
+        if (!productId || !name || !description || !labelledPrice || !price || !stock) {
+            toast.error("Please fill in all required fields")
             return
         }
 
@@ -38,9 +44,9 @@ export default function AddProductPage() {
         }
         try{
             const imageUrls = await Promise.all(promisesArray);
-            console.log(imageUrls);
+            console.log("Image URLs uploaded:", imageUrls);
 
-            const altNamesArray = altNames.split(",")
+            const altNamesArray = altNames ? altNames.split(",").filter(name => name.trim() !== "") : []
 
             const product = {
                 productId : productId,
@@ -48,10 +54,13 @@ export default function AddProductPage() {
                 altNames : altNamesArray,
                 description : description,
                 image : imageUrls,
-                labelledPrice : labelledPrice,
-                price : price,
-                stock : stock
+                labelledPrice : parseFloat(labelledPrice),
+                price : parseFloat(price),
+                stock : parseInt(stock),
+                isAvailabel : true
             }
+            console.log("Product being sent:", product);
+            
             axios.post(import.meta.env.VITE_BACKEND_URL + "/api/products" , product , {
                 headers : {
                     "Authorization" : "Bearer "+token
@@ -61,27 +70,155 @@ export default function AddProductPage() {
                 navigate("/admin/products")
 
             }).catch((e) => {
-                toast.error(e.response.data.message)
+                console.log("Error details:", e)
+                console.log("Error response:", e.response)
+                const errorMessage = e.response?.data?.message || e.message || "Failed to add product"
+                toast.error(errorMessage)
             })
 
         } catch(e){
-            console.log(e);
+            console.log("Upload error:", e);
+            toast.error("Failed to upload images: " + e);
         }
     }
 
     return (
-        <div className="w-full h-full flex-col justify-center items-center">
-            <input type="text" placeholder="Product Id" className="input input-bordered w-full max-w-x" value={productId} onChange={(e)=>setProductId(e.target.value)}/>
-            <input type="text" placeholder="Name" className="input input-bordered w-full max-w-x" value={name} onChange={(e)=>setName(e.target.value)}/>
-            <input type="text" placeholder="Alt Names" className="input input-bordered w-full max-w-x" value={altNames} onChange={(e)=>setAltNames(e.target.value)}/>
-            <input type="text" placeholder="Description" className="input input-bordered w-full max-w-x" value={description} onChange={(e)=>setDescription(e.target.value)}/>
-            <input type="file" placeholder="Images" multiple className="input input-bordered w-full max-w-x" value={images} onChange={(e)=>setImages(e.target.files)}/>
-            <input type="number" placeholder="Labelled Price" className="input input-bordered w-full max-w-x" value={labelledPrice} onChange={(e)=>setLabelledPrice(e.target.value)}/>
-            <input type="number" placeholder="price" className="input input-bordered w-full max-w-x" value={price} onChange={(e)=>setPrice(e.target.value)}/>
-            <input type="number" placeholder="Stock" className="input input-bordered w-full max-w-x" value={stock} onChange={(e)=>setStock(e.target.value)}/>
-            <div className="w-full flex justify-center flex-row items-center mt-4">
-                <Link to="/admin/products" className="bg-red-500 text-white font-bold py-2 px-4 rounded mr-4">Cancel</Link>
-                <button className="bg-green-500 text-white font-bold py-2 px-4 rounded" onClick={AddProduct}>Add Product</button>
+        <div className="w-full h-full p-6 overflow-y-auto bg-linear-to-br from-gray-50 to-gray-100">
+            {/* Header */}
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold text-secondary mb-2">Add New Product</h1>
+                <p className="text-gray-600">Fill in all the details below to create a new product</p>
+            </div>
+
+            {/* Form Container */}
+            <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+                
+                {/* Product ID & Name Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Product ID *</label>
+                        <input 
+                            type="text" 
+                            placeholder="e.g., PROD_001_MOISTURIZER" 
+                            className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                            value={productId} 
+                            onChange={(e)=>setProductId(e.target.value)}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Unique identifier for the product</p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Product Name *</label>
+                        <input 
+                            type="text" 
+                            placeholder="e.g., Hydrating Face Moisturizer" 
+                            className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                            value={name} 
+                            onChange={(e)=>setName(e.target.value)}
+                        />
+                    </div>
+                </div>
+
+                {/* Alternative Names */}
+                <div className="mb-6">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Alternative Names</label>
+                    <input 
+                        type="text" 
+                        placeholder="e.g., Daily Hydration Cream, Moisture Boost Lotion (comma separated)" 
+                        className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                        value={altNames} 
+                        onChange={(e)=>setAltNames(e.target.value)}
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Separate multiple names with commas</p>
+                </div>
+
+                {/* Description */}
+                <div className="mb-6">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label>
+                    <textarea 
+                        placeholder="Enter detailed product description..." 
+                        className="w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2 min-h-28 resize-none"
+                        value={description} 
+                        onChange={(e)=>setDescription(e.target.value)}
+                    />
+                </div>
+
+                {/* Pricing Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Labelled Price (LKR) *</label>
+                        <input 
+                            type="number" 
+                            placeholder="e.g., 45000" 
+                            className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                            value={labelledPrice} 
+                            onChange={(e)=>setLabelledPrice(e.target.value)}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Original/marked price in LKR</p>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Selling Price (LKR) *</label>
+                        <input 
+                            type="number" 
+                            placeholder="e.g., 32000" 
+                            className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                            value={price} 
+                            onChange={(e)=>setPrice(e.target.value)}
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Final selling price in LKR</p>
+                    </div>
+                </div>
+
+                {/* Stock */}
+                <div className="mb-6">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Stock Quantity *</label>
+                    <input 
+                        type="number" 
+                        placeholder="e.g., 50" 
+                        className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                        value={stock} 
+                        onChange={(e)=>setStock(e.target.value)}
+                    />
+                </div>
+
+                {/* Images Upload */}
+                <div className="mb-8">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Product Images</label>
+                    <div className="border-2 border-dashed border-accent rounded-lg p-6 text-center cursor-pointer hover:bg-blue-50 transition">
+                        <input 
+                            type="file" 
+                            multiple 
+                            className="hidden" 
+                            id="imageInput"
+                            onChange={(e)=>setImages(e.target.files)}
+                        />
+                        <label htmlFor="imageInput" className="block cursor-pointer">
+                            <div className="text-accent text-3xl mb-2">📸</div>
+                            <p className="font-semibold text-gray-700">Click to select images</p>
+                            <p className="text-xs text-gray-500 mt-1">Supported: JPG, PNG, WebP</p>
+                        </label>
+                    </div>
+                    {images.length > 0 && (
+                        <div className="mt-3 p-3 bg-blue-50 rounded-lg">
+                            <p className="text-sm text-accent font-semibold">✓ {images.length} image(s) selected</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-center gap-4 pt-6 border-t border-gray-200">
+                    <Link 
+                        to="/admin/products" 
+                        className="px-6 py-3 rounded-lg font-semibold border-2 border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+                    >
+                        Cancel
+                    </Link>
+                    <button 
+                        onClick={AddProduct}
+                        className="px-6 py-3 rounded-lg font-semibold bg-accent text-white hover:bg-secondary transition shadow-md"
+                    >
+                        Add Product
+                    </button>
+                </div>
             </div>
         </div>
     )

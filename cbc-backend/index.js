@@ -50,8 +50,7 @@ async function startServer() {
 
 startServer();
 
-
-
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
+app.use('/api/products', productRouter); // Alias for /api/products (same as /api/product)
 app.use('/api/order', orderRouter);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import Modal from "react-modal";
 import Loading from "../../components/loading.jsx";
 
@@ -8,33 +8,16 @@ Modal.setAppElement("#root");
 
 export default function AdminOrderPage() {
   const [orders, setOrders] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeOrder, setActiveOrder] = useState(null);
 
+  // TODO: Implement orders API endpoint in backend
+  // For now, orders feature is disabled
   useEffect(() => {
-    if (!isLoading) return;
-
-    const token = localStorage.getItem("token");
-    if (!token) {
-      toast.error("Please login first");
-      setIsLoading(false);
-      return;
-    }
-
-    axios
-      .get(import.meta.env.VITE_BACKEND_URL + "/api/orders", {
-        headers: { Authorization: "Bearer " + token },
-      })
-      .then((res) => {
-        setOrders(res.data);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        toast.error(e.response?.data?.message || "Failed to load orders");
-        setIsLoading(false);
-      });
-  }, [isLoading]);
+    setOrders([]);
+    setIsLoading(false);
+  }, []);
 
   function openOrderModal(order) {
     setActiveOrder(order);

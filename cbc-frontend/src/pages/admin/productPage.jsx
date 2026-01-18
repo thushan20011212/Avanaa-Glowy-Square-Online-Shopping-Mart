@@ -25,6 +25,11 @@ export default function AdminProductPage() {
   }, [isLoading]);
 
   function deleteProduct(productId) {
+    if (!productId || productId.toString().length === 0) {
+      toast.error("Product ID is invalid");
+      return;
+    }
+
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -34,13 +39,12 @@ export default function AdminProductPage() {
 
     if (!window.confirm("Are you sure you want to delete this product?")) return;
 
+    const deleteUrl = import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId;
+
     axios
-      .delete(
-        import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId,
-        {
-          headers: { Authorization: "Bearer " + token },
-        }
-      )
+      .delete(deleteUrl, {
+        headers: { Authorization: "Bearer " + token },
+      })
       .then(() => {
         toast.success("Product deleted successfully");
         setIsLoading(true);
@@ -60,7 +64,7 @@ export default function AdminProductPage() {
         </h1>
 
         <Link
-          to="addProductPage"
+          to="/admin/addProductPage"
           className="bg-accent hover:bg-secondary hover:text-white transition px-5 py-2 rounded-lg font-semibold shadow"
         >
           + Add Product
@@ -98,36 +102,39 @@ export default function AdminProductPage() {
               ) : (
                 products.map((item, index) => (
                   <tr
-                    key={item.ProductId}
+                    key={item._id || item.productId || item.id || index}
                     className="border-t hover:bg-gray-50 transition"
                   >
                     <td className="p-3">{index + 1}</td>
-                    <td className="p-3">{item.ProductId}</td>
+                    <td className="p-3">{item.productId}</td>
                     <td className="p-3 font-medium">{item.name}</td>
 
                     <td className="p-3 flex justify-center">
                       <img
-                        src={item.image?.[0]}
+                        src={item.image?.[0] || "/placeholder.svg"}
                         alt={item.name}
                         className="w-[50px] h-[50px] object-cover rounded"
+                        onError={(e) => {
+                          e.target.src = "/placeholder.svg";
+                        }}
                       />
                     </td>
 
-                    <td className="p-3">{item.labelledPrice}</td>
-                    <td className="p-3 font-semibold">{item.price}</td>
+                    <td className="p-3">{item.labelledPrice} LKR</td>
+                    <td className="p-3 font-semibold">{item.price} LKR</td>
                     <td className="p-3">{item.stock}</td>
 
                     <td className="p-3">
                       <div className="flex justify-center gap-4">
                         <FaTrash
                           className="text-red-500 cursor-pointer hover:scale-110 transition"
-                          onClick={() => deleteProduct(item.ProductId)}
+                          onClick={() => deleteProduct(item.productId || item._id)}
                         />
                         <FaEdit
                           className="text-blue-500 cursor-pointer hover:scale-110 transition"
                           onClick={() =>
                             navigate(
-                              `/admin/editProductPage/${item.ProductId}`,
+                              `/admin/editProductPage/${item.productId || item._id}`,
                               { state: item }
                             )
                           }

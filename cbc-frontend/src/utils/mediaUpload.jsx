@@ -11,16 +11,16 @@ export function mediaUpload(file){
         (resolve,reject)=>{
 
             if(file == null){
-                reject("No File Selectes")
+                reject("No File Selected")
                 return
             }
 
             const timeStamp = new Date().getTime()
-            const newName = timeStamp+file.name
+            const newName = timeStamp+"-"+file.name
 
             supabase.storage.from("cbc-images").upload(newName, file, {
-                upsert:false,
-                cacheControl:"3600"
+                upsert: true,
+                cacheControl: "3600"
             }).then(()=>{
                 const publicUrl = supabase.storage.from("cbc-images").getPublicUrl(newName).data.publicUrl
                 console.log(publicUrl)

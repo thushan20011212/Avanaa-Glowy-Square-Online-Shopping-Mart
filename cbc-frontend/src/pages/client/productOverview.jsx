@@ -1,9 +1,14 @@
-import toast from "react-hot-toast"
+import { toast } from "react-hot-toast"
 import { useEffect, useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
+import axios from "axios"
 import ImageSlider from "../../components/imageSlider"
+import Loading from "../../components/loading"
+import { addToCart } from "../../utils/cart.js"
 
 export default function ProductOverviewPage() {
     const params = useParams()
+    const navigate = useNavigate()
     const productId = params.id
     const [status, setStatus] = useState("loading") //loading ,success, error
     const [product, setProduct] = useState(null)
@@ -28,13 +33,13 @@ export default function ProductOverviewPage() {
                {status == "success" && (
                 <div className="w-full h-full flex">
                     <div className="w-[50%] h-full flex justify-center items-center">
-                        <ImageSlider images={product.images} />
+                        <ImageSlider images={product.image || []} />
                     </div>
                     <div className="w-[50%] h-full flex justify-center items-center">
                         <div className="w-[500px] h-[600px] flex flex-col items-center">
                             <h1 className="w-full text-center text-4xl text-secondary font-semibold">{product.name}
                                 {
-                                    product.altNames.map((altName, index) => {      
+                                    product.altNames && product.altNames.map((altName, index) => {      
                                         return (
                                         <span key={index} className="text-4xl text-gray-600">{" | " +altName}</span>
                                         )
@@ -47,14 +52,21 @@ export default function ProductOverviewPage() {
                             {
                                 product.labelledPrice > product.price ? 
                                     <div>
-                                        <span className="text-4xl mx-4 text-gray-500 line-through">{product.labelledPrice.toFixed(2)}</span>
-                                        <span className="text-4xl mx-4 font-bold text-accent">{product.price.toFixed(2)}</span>
+                                        <span className="text-4xl mx-4 text-gray-500 line-through">₨{product.labelledPrice.toFixed(2)}</span>
+                                        <span className="text-4xl mx-4 font-bold text-accent">₨{product.price.toFixed(2)}</span>
                                     </div> 
-                                    : <span className="text-4xl mx-4 font-bold text-accent">{product.price.toFixed(2)}</span>
+                                    : <span className="text-4xl mx-4 font-bold text-accent">₨{product.price.toFixed(2)}</span>
                             }
 
                             <div className="w-full flex justify-center items-center mt-4">
-                                <button className="w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-accent/80 transition-all duration-300">Add to Cart</button>
+                                <button 
+                                    className="w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-accent/80 transition-all duration-300"
+                                    onClick={ () => {
+                                        addToCart(product, 1);
+                                        toast.success(`${product.name} added to cart!`);
+                                    }}>
+                                    Add to Cart
+                                </button>
                                 <button 
                                     className="w-[200px] h-[50px] mx-4 cursor-pointer bg-accent text-white rounded-2xl hover:bg-secondary/80 transition-all duration-300"
                                     onClick={ () => {
@@ -64,7 +76,7 @@ export default function ProductOverviewPage() {
                                                     {
                                                         productId: product.productId,
                                                         name: product.name,
-                                                        image: product.images[0],
+                                                        image: product.image?.[0] || "/placeholder.svg",
                                                         price: product.price,
                                                         labelledPrice: product.labelledPrice,
                                                         qty: 1

@@ -12,7 +12,7 @@ export default function CartPage() {
             <div className="w-[400px] h-[80px] shadow-2xl absolute top-1 right-1 flex flex-col items-start justify-start">
                 <p className="text-2xl text-secondary font-bold">Total:
                     <span className="text-accent font-bold mx-2">
-                        {getTotal().toFixed(2)}
+                        ₨{getTotal().toFixed(2)}
                     </span>
                 </p>
                 <Link to="/checkout" state={
@@ -36,10 +36,10 @@ export default function CartPage() {
                                     {
                                         item.labelledPrice > item.price ?
                                         <div>
-                                            <span className="text-md mx-1 text-gray-500 line-through">{item.labelledPrice.toFixed(2)}</span>
-                                            <span className="text-md mx-1 font-bold text-accent">{item.price.toFixed(2)}</span>
+                                            <span className="text-md mx-1 text-gray-500 line-through">₨{item.labelledPrice.toFixed(2)}</span>
+                                            <span className="text-md mx-1 font-bold text-accent">₨{item.price.toFixed(2)}</span>
                                         </div>
-                                        : <span className="text-md mx-1 font-bold text-accent">{item.price.toFixed(2)}</span>
+                                        : <span className="text-md mx-1 font-bold text-accent">₨{item.price.toFixed(2)}</span>
                                     }
                                 </div>
                                 <div className="max-w-[100px] w-[100px] h-full flex flex-row justify-evenly items-center">
@@ -58,7 +58,7 @@ export default function CartPage() {
                                 </div>
                                 {/* total */}
                                 <div className="w-[200px] h-full flex flex-col justify-center items-end pr-4">
-                                    <h1 className="text-2xl text-secondary font-semibold">Rs. {(item.price * item.qty).toFixed(2)}</h1>
+                                    <h1 className="text-2xl text-secondary font-semibold">₨{(item.price * item.qty).toFixed(2)}</h1>
                                 </div>
                                 <button className="absolute text-red-600 cursor-pointer rounded-full hover:bg-red-600 hover:text-white p-2 right-[-35px]" onClick={
                                     () => {

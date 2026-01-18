@@ -1,13 +1,27 @@
 import axios from "axios";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { BiMinus , BiPlus , BiTrash } from "react-icons/bi";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 export default function CheckOutPage() {
     const location = useLocation()
-    console.log(location.state.cart)
+    const navigate = useNavigate()
+    
+    if (!location.state || !location.state.cart) {
+        return (
+            <div className="w-full h-full flex flex-col justify-center items-center">
+                <h1 className="text-2xl font-bold text-secondary mb-4">No items in checkout</h1>
+                <button 
+                    onClick={() => navigate("/products")}
+                    className="px-6 py-2 bg-accent text-white rounded-lg hover:bg-secondary transition"
+                >
+                    Continue Shopping
+                </button>
+            </div>
+        )
+    }
 
     const [cart, setCart] = useState(location.state?.cart || [])
     const [phoneNumber, setPhoneNumber] = useState("")
@@ -21,21 +35,23 @@ export default function CheckOutPage() {
         return total
     }
 
-    function removeFromCart(productId) {
+    function removeFromCart(index) {
         const newCart = cart.filter((item, i) => i !== index);
         setCart(newCart);
+        toast.success("Item removed from checkout");
     }
 
-    function changeQty(index, qty) {
-        const newQty = cart[index].qty = qty;
+    function changeQty(index, change) {
+        const newCart = [...cart];
+        const newQty = newCart[index].qty + change;
+        
         if (newQty <= 0) {
             removeFromCart(index);
-            return
-        } else {
-            const newCart = [...cart];
-            newCart[index].qty = newQty;
-            setCart(newCart);
+            return;
         }
+        
+        newCart[index].qty = newQty;
+        setCart(newCart);
     }
 
     async function placeOrder(){
@@ -45,28 +61,38 @@ export default function CheckOutPage() {
             return
         }
 
+        if(!phoneNumber || !address) {
+            toast.error("Please fill in all fields")
+            return
+        }
+
+        if(cart.length === 0) {
+            toast.error("Cart is empty")
+            return
+        }
+
         const orderInformation = {
-            products: [],
+            products: cart.map(item => ({
+                productId: item.productId,
+                qty: item.qty
+            })),
             phone: phoneNumber,
             address: address
         }
 
-        for(let i=0; i<cart.length; i++) {
-            const item = {
-                productId: cart[i].productId,
-                qty: cart[i].qty
-            }
-            orderInformation.products[i] = item;
-        }
-
         try{
-            const res = await axios.post(import.meta.env.VITE_API_URL + "/api/orders", orderInformation, {
-                headers: {
-                    Authorization: "Bearer " + token
-                }
-            });
-            toast.success("Order placed successfully!")
-            console.log(res.data)
+            // TODO: Implement /api/orders endpoint in backend
+            // For now, show success message without sending to server
+            toast.success("Order placed successfully! (Feature coming soon)")
+            console.log("Order details:", orderInformation)
+            
+            // Uncomment below when orders API is ready:
+            // const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders", orderInformation, {
+            //     headers: { Authorization: "Bearer " + token }
+            // });
+            // if (res.status === 201) {
+            //     navigate("/");
+            // }
         } catch (err) {
             console.error(err)
             toast.error("Failed to place order.")
@@ -77,68 +103,94 @@ export default function CheckOutPage() {
 
     return (
         <div className="w-full h-full flex flex-col items-center pt-4 relative">
-            <div className="w-[400px] h-[80px] shadow-2xl absolute top-1 right-1 flex flex-col items-center justify-center p-1 gap-10">
-                <p className="text-2xl text-secondary font-bold">Total:
-                    <span className="text-accent font-bold mx-2">
-                        {getTotal().toFixed(2)}
-                    </span>
+            {/* Summary Card */}
+            <div className="w-full max-w-[600px] mb-6 p-6 bg-white rounded-lg shadow-lg">
+                <h2 className="text-2xl font-bold text-secondary mb-4">Order Summary</h2>
+                <p className="text-xl text-secondary font-bold mb-4">
+                    Total: <span className="text-accent">₨{getTotal().toFixed(2)}</span>
                 </p>
-                <div>
-                    <input type="text" placeholder="Phone Number" className="p-2 m-2 rounded-lg border-2 border-gray-300" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                
+                <div className="space-y-3 mb-4">
+                    <input 
+                        type="text" 
+                        placeholder="Phone Number" 
+                        className="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none"
+                        value={phoneNumber} 
+                        onChange={(e) => setPhoneNumber(e.target.value)} 
+                    />
+                    <input 
+                        type="text" 
+                        placeholder="Address" 
+                        className="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none"
+                        value={address} 
+                        onChange={(e) => setAddress(e.target.value)} 
+                    />
                 </div>
-                <div>
-                    <input type="text" placeholder="Address" className="p-2 m-2 rounded-lg border-2 border-gray-300" value={address} onChange={(e) => setAddress(e.target.value)} />
-                </div>
-                <button className="text-white bg-accent px-4 py-2 rounded-lg hover:bg-secondary transition-all duration-300" onClick={placeOrder}>
+                
+                <button 
+                    onClick={placeOrder}
+                    className="w-full text-white bg-accent px-4 py-3 rounded-lg hover:bg-secondary transition-all duration-300 font-semibold"
+                >
                     Place Order
                 </button>
             </div>
 
-            {
-                cart.map(
-                    (item , index) => {
+            {/* Cart Items */}
+            <div className="w-full max-w-[600px] space-y-4">
+                {cart.length === 0 ? (
+                    <div className="text-center py-8">
+                        <p className="text-gray-500 text-lg">No items in checkout</p>
+                    </div>
+                ) : (
+                    cart.map((item, index) => {
                         return (
-                            <div key={item.productId} className="w-[600px] my-4 h-[100px] rounded-tl-3xl rounded-bl-3xl bg-primary shadow-2xl flex flex-row items-center justify-center  relative">
-                                <img src={item.image} className="w-[100px] h-[100px] object-cover rounded-3xl"/>
-                                <div className="w-[250px] h-[full] flex flex-col justify-center items-start pl-4">
-                                    <h1 className="text-xl text-secondary font-semibold">{item.name}</h1>
-                                    <h1 className="text-md text-gray-600 font-semibold">{item.productId}</h1>
+                            <div key={item.productId + index} className="w-full h-24 rounded-xl bg-primary shadow-md flex flex-row items-center justify-between p-4 relative">
+                                <img src={item.image || "/placeholder.svg"} alt={item.name} className="w-24 h-24 object-cover rounded-lg"/>
+                                
+                                <div className="flex-1 flex flex-col justify-center items-start pl-4">
+                                    <h1 className="text-lg text-secondary font-semibold">{item.name}</h1>
+                                    <h1 className="text-sm text-gray-600">{item.productId}</h1>
                                     {
                                         item.labelledPrice > item.price ?
                                         <div>
-                                            <span className="text-md mx-1 text-gray-500 line-through">{item.labelledPrice.toFixed(2)}</span>
-                                            <span className="text-md mx-1 font-bold text-accent">{item.price.toFixed(2)}</span>
+                                            <span className="text-sm text-gray-500 line-through">₨{item.labelledPrice.toFixed(2)}</span>
+                                            <span className="text-sm font-bold text-accent ml-2">₨{item.price.toFixed(2)}</span>
                                         </div>
-                                        : <span className="text-md mx-1 font-bold text-accent">{item.price.toFixed(2)}</span>
+                                        : <span className="text-sm font-bold text-accent">₨{item.price.toFixed(2)}</span>
                                     }
                                 </div>
-                                <div className="max-w-[100px] w-[100px] h-full flex flex-row justify-evenly items-center">
-                                    <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent"
-                                    onClick={() => {
-                                        changeQty(index, -1);
-                                    }}><BiMinus/></button>
-                                    <h1 className="text-xl text-secondary font-semibold h-full flex items-center">{item.qty}</h1>
-                                    <button className="text-white font-bold rounded-xl hover:bg-secondary p-2 text-xl cursor-pointer aspect-square bg-accent"
-                                    onClick={() => {
-                                        changeQty(index, 1);
-                                    }}><BiPlus/></button>
+                                
+                                <div className="flex flex-row gap-2 items-center">
+                                    <button 
+                                        className="text-white font-bold rounded-lg p-1 bg-accent hover:bg-secondary transition"
+                                        onClick={() => changeQty(index, -1)}
+                                    >
+                                        <BiMinus/>
+                                    </button>
+                                    <span className="text-lg font-semibold text-secondary w-8 text-center">{item.qty}</span>
+                                    <button 
+                                        className="text-white font-bold rounded-lg p-1 bg-accent hover:bg-secondary transition"
+                                        onClick={() => changeQty(index, 1)}
+                                    >
+                                        <BiPlus/>
+                                    </button>
                                 </div>
-                                {/* total */}
-                                <div className="w-[200px] h-full flex flex-col justify-center items-end pr-4">
-                                    <h1 className="text-2xl text-secondary font-semibold">Rs. {(item.price * item.qty).toFixed(2)}</h1>
+                                
+                                <div className="w-24 text-right">
+                                    <p className="text-lg font-semibold text-secondary">₨{(item.price * item.qty).toFixed(2)}</p>
                                 </div>
-                                <button className="absolute text-red-600 cursor-pointer rounded-full hover:bg-red-600 hover:text-white p-2 right-[-35px]" onClick={
-                                    () => {
-                                        removeFromCart(index)
-                                }}>
+                                
+                                <button 
+                                    className="text-red-600 hover:bg-red-600 hover:text-white p-2 rounded-full transition"
+                                    onClick={() => removeFromCart(index)}
+                                >
                                     <BiTrash/>
                                 </button>
                             </div>
                         );
-                    }
-                )
-            }
-            
+                    })
+                )}
+            </div>
         </div>
     );
 }

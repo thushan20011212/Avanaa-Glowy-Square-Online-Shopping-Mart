@@ -16,7 +16,6 @@ export default function LogInPage() {
         password
       });
       toast.success("Login successful!");
-      console.log(response.data);
       localStorage.setItem("token", response.data.token);
 
       if(response.data.role === "admin") {
@@ -24,11 +23,8 @@ export default function LogInPage() {
       }else{
         navigate("/");
       }
-      
-      // Handle successful login (e.g., redirect, store token, etc.)
     } catch (error) {
       toast.error(error.response.data.message);
-      // Handle login failure (e.g., show error message)
     }
   }
 

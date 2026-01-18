@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { useLocation, useNavigate, Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { useLocation, useNavigate, Link, useParams } from "react-router-dom"
 import axios from "axios"
-import toast from "react-hot-toast"
+import { toast } from "react-hot-toast"
 import { mediaUpload } from "../../utils/mediaUpload"
 
 
@@ -9,17 +9,25 @@ import { mediaUpload } from "../../utils/mediaUpload"
 export default function EditProductPage() {
 
     const location = useLocation();
-    const [productId,setProductId] = useState(location.state.productId) 
-    const [name,setName] = useState(location.state.name)
-    const [altNames,setAltNames] = useState(location.state.altNames.join(","))
-    const [description,setDescription] = useState(location.state.description)
+    const { id } = useParams();
+    const productData = location.state;
+
+    const [productId,setProductId] = useState(productData?.productId || productData?.ProductId || id || '') 
+    const [name,setName] = useState(productData?.name || '')
+    const [altNames,setAltNames] = useState(productData?.altNames?.join(",") || '')
+    const [description,setDescription] = useState(productData?.description || '')
     const [images,setImages] = useState([])
-    const [labelledPrice,setLabelledPrice] = useState(location.state.labelledPrice)
-    const [price,setPrice] = useState(location.state.price)
-    const [stock,setStock] = useState(location.state.stock)
+    const [labelledPrice,setLabelledPrice] = useState(productData?.labelledPrice || 0)
+    const [price,setPrice] = useState(productData?.price || 0)
+    const [stock,setStock] = useState(productData?.stock || 0)
     const navigate = useNavigate()
 
     async function UpdateProduct() {
+
+        if (!productId) {
+            toast.error("Product ID is required")
+            return
+        }
 
         const token = localStorage.getItem("token")
         if(token == null){
@@ -27,7 +35,7 @@ export default function EditProductPage() {
             return
         }
 
-        let imageUrls = location.state.images;
+        let imageUrls = productData?.image || [];
 
         const promisesArray = [];
 
@@ -59,10 +67,13 @@ export default function EditProductPage() {
                 }
             }).then((res) => {
                 toast.success("Product Updated Successfully")
-                navigate("admin/products")
+                navigate("/admin/products")
 
             }).catch((e) => {
-                toast.error(e.response.data.message)
+                console.log("Error details:", e)
+                console.log("Error response:", e.response)
+                const errorMessage = e.response?.data?.message || e.message || "Failed to update product"
+                toast.error(errorMessage)
             })
 
         } catch(e){
@@ -77,7 +88,7 @@ export default function EditProductPage() {
             <input type="text" placeholder="Name" className="input input-bordered w-full max-w-x" value={name} onChange={(e)=>setName(e.target.value)}/>
             <input type="text" placeholder="Alt Names" className="input input-bordered w-full max-w-x" value={altNames} onChange={(e)=>setAltNames(e.target.value)}/>
             <input type="text" placeholder="Description" className="input input-bordered w-full max-w-x" value={description} onChange={(e)=>setDescription(e.target.value)}/>
-            <input type="file" placeholder="Images" multiple className="input input-bordered w-full max-w-x" value={images} onChange={(e)=>setImages(e.target.files)}/>
+            <input type="file" placeholder="Images" multiple className="input input-bordered w-full max-w-x" onChange={(e)=>setImages(e.target.files)}/>
             <input type="number" placeholder="Labelled Price" className="input input-bordered w-full max-w-x" value={labelledPrice} onChange={(e)=>setLabelledPrice(e.target.value)}/>
             <input type="number" placeholder="price" className="input input-bordered w-full max-w-x" value={price} onChange={(e)=>setPrice(e.target.value)}/>
             <input type="number" placeholder="Stock" className="input input-bordered w-full max-w-x" value={stock} onChange={(e)=>setStock(e.target.value)}/>

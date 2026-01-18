@@ -9,12 +9,12 @@ export function getCart() {
     return cart;
 }
 
-export function removeFromCart(product) {
+export function removeFromCart(productId) {
     let cart = getCart();
 
     const newCart = cart.filter(
         (item) => {
-            return item.productId !== product.productId;
+            return item.productId !== productId;
         }
     );
 
