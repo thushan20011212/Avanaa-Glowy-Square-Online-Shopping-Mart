@@ -12,10 +12,15 @@ export function getProducts(req, res) {
 
 export function saveProduct(req, res) {
     const product = new Product({
-        title: req.body.title,
+        productId: req.body.productId,
+        name: req.body.name,
+        altNames: req.body.altNames,
         description: req.body.description,
+        labelledPrice: req.body.labelledPrice,
         price: req.body.price,
         image: req.body.image,
+        stock: req.body.stock,
+        isAvailabel: req.body.isAvailabel,
     });
 
     product.save().then(() => {
@@ -34,10 +39,15 @@ export function updateProduct(req, res) {
     const productId = req.params.productId;
     
     Product.findByIdAndUpdate(productId, {
-        title: req.body.title,
+        productId: req.body.productId,
+        name: req.body.name,
+        altNames: req.body.altNames,
         description: req.body.description,
+        labelledPrice: req.body.labelledPrice,
         price: req.body.price,
         image: req.body.image,
+        stock: req.body.stock,
+        isAvailabel: req.body.isAvailabel,
     }, { new: true })
     .then((updatedProduct) => {
         if (!updatedProduct) {

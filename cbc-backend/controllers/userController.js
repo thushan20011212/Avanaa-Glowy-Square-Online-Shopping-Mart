@@ -36,7 +36,7 @@ export function loginUser(req, res) {
     User.findOne({ email: email }).then
         ((user) => {
             if(user == null){
-                req.status(404).json(
+                res.status(404).json(
                     {
                         message: "User not found",
                     }
@@ -71,6 +71,10 @@ export function loginUser(req, res) {
                 }
                                 }
         }
-    )
+    ).catch((error) => {
+        res.status(500).json({
+            message: "Database error occurred",
+        });
+    })
 }
 

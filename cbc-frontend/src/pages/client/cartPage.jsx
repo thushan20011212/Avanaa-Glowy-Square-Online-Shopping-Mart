@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BiMinus , BiPlus , BiTrash } from "react-icons/bi";
-import { addToCart, getCart } from "../../utils/cart.js";
+import { addToCart, getCart ,getTotal, removeFromCart } from "../../utils/cart.js";
 import { Link } from "react-router-dom";
 
 

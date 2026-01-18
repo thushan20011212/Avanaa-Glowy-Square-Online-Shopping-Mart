@@ -9,7 +9,7 @@ export default function ProductPage() {
     useEffect(
         () => {
             if(isLoading){
-                axios.get(import.meta.env.VITE_API_URL + "/api/products").then(
+                axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products").then(
                     (res) => {
                         setProducts(res.data);
                         setIsLoading(false);

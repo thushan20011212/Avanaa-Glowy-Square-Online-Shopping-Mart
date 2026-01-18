@@ -1,8 +1,8 @@
 import { useState } from "react"
-import toast from "react-hot-toast"
+import { toast } from "react-hot-toast"
 import { useNavigate, Link } from "react-router-dom"
 import axios from "axios"
-import { mediaUpload } from "../../utils/mediaUpload"
+import { mediaUpload } from "../../utils/mediaUpload.jsx"
 
 
 

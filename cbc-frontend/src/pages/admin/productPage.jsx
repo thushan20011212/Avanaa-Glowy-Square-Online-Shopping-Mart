@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function AdminProductPage() {
@@ -12,7 +12,7 @@ export default function AdminProductPage() {
   useEffect(() => {
     if (isLoading) {
       axios
-        .get(import.meta.env.VITE_BACKEND_URL + "/products")
+        .get(import.meta.env.VITE_BACKEND_URL + "/api/products")
         .then((res) => {
           setProducts(res.data);
           setIsLoading(false);
