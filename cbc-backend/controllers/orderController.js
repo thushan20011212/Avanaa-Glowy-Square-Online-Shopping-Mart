@@ -2,7 +2,7 @@ import Order from "../models/order.js";
 import Product from "../models/product.js";
 
 export async function createOrder(req, res) {
-    if (req.user == null) {
+    if (req.userData == null) {
         res.status(403).json({ message: "Forbidden - no user found" });
         return;
     }
@@ -10,7 +10,7 @@ export async function createOrder(req, res) {
     const orderInfo = req.body;
 
     if (orderInfo.name == null) {
-        orderInfo.name = req.user.firstName + " " + req.user.lastName;
+        orderInfo.name = req.userData.firstName + " " + req.userData.lastName;
     }
 
     //CBC00001
@@ -44,7 +44,7 @@ export async function createOrder(req, res) {
                 return;
             }
 
-            if (item.isAvailable == false) {
+            if (item.isAvailabel == false) {
                 res.status(404).json({
                     message: "Product with productID " + reqProd.productId + " is not available right now"
                 });
@@ -52,15 +52,13 @@ export async function createOrder(req, res) {
             }
 
             products.push({
-                productInfo: {
-                    productId: item.productId,
-                    name: item.name,
-                    altNames: item.altNames,
-                    description: item.description,
-                    images: item.images,
-                    labelledPrice: item.labelledPrice,
-                    price: item.price
-                },
+                productId: item.productId,
+                name: item.name,
+                altNames: item.altNames,
+                description: item.description,
+                images: item.image,
+                labelledPrice: item.labelledPrice,
+                price: item.price,
                 quantity: reqProd.qty
             });
 
@@ -70,7 +68,7 @@ export async function createOrder(req, res) {
 
         const order = new Order({
             orderId: orderId,
-            email: req.user.email,
+            email: req.userData.email,
             name: orderInfo.name,
             address: orderInfo.address,
             phone: orderInfo.phone,
@@ -93,18 +91,18 @@ export async function createOrder(req, res) {
 }
 
 export async function getOrders(req, res) {
-    if (req.user == null) {
+    if (req.userData == null) {
         res.status(403).json({ 
             message: "Forbidden - no user found" });
         return;
     }
 
     try {
-        if (req.user.role === "admin") {
+        if (req.userData.role === "admin") {
             const orders = await Order.find();
             res.json(orders);
         } else {
-            const orders = await Order.find({ email: req.user.email });
+            const orders = await Order.find({ email: req.userData.email });
             res.json(orders);
         }
     } catch (err) {

@@ -81,21 +81,18 @@ export default function CheckOutPage() {
         }
 
         try{
-            // TODO: Implement /api/orders endpoint in backend
-            // For now, show success message without sending to server
-            toast.success("Order placed successfully! (Feature coming soon)")
-            console.log("Order details:", orderInformation)
+            const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders", orderInformation, {
+                headers: { Authorization: "Bearer " + token }
+            });
             
-            // Uncomment below when orders API is ready:
-            // const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders", orderInformation, {
-            //     headers: { Authorization: "Bearer " + token }
-            // });
-            // if (res.status === 201) {
-            //     navigate("/");
-            // }
+            if (res.status === 201 || res.status === 200) {
+                toast.success("Order placed successfully!");
+                localStorage.removeItem("cart");
+                navigate("/");
+            }
         } catch (err) {
-            console.error(err)
-            toast.error("Failed to place order.")
+            console.error("Order creation error:", err)
+            toast.error(err.response?.data?.message || "Failed to place order.")
             return
         }
 

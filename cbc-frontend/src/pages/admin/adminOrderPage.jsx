@@ -12,12 +12,40 @@ export default function AdminOrderPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeOrder, setActiveOrder] = useState(null);
 
-  // TODO: Implement orders API endpoint in backend
-  // For now, orders feature is disabled
+  // Fetch orders from backend
   useEffect(() => {
-    setOrders([]);
-    setIsLoading(false);
+    fetchOrders();
   }, []);
+
+  async function fetchOrders() {
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login first");
+        setIsLoading(false);
+        return;
+      }
+
+      const response = await axios.get(
+        import.meta.env.VITE_BACKEND_URL + "/api/orders",
+        {
+          headers: { Authorization: "Bearer " + token }
+        }
+      );
+
+      setOrders(response.data || []);
+      if (response.data.length === 0) {
+        toast.success("No orders yet");
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      toast.error(error.response?.data?.message || "Failed to fetch orders");
+      setOrders([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   function openOrderModal(order) {
     setActiveOrder(order);
@@ -49,69 +77,140 @@ export default function AdminOrderPage() {
           <Modal
             isOpen={isModalOpen}
             onRequestClose={closeModal}
-            className="bg-white max-w-3xl mx-auto mt-20 p-6 rounded-xl outline-none shadow-xl"
-            overlayClassName="fixed inset-0 bg-black/50 flex justify-center items-start"
+            className="bg-white max-w-4xl mx-auto mt-10 rounded-2xl outline-none shadow-2xl overflow-hidden"
+            overlayClassName="fixed inset-0 bg-black/60 flex justify-center items-start py-10"
           >
             {activeOrder && (
-              <div className="space-y-4">
-
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold text-secondary">
-                    Order Details
-                  </h2>
+              <div className="max-h-[90vh] overflow-y-auto">
+                {/* Header */}
+                <div className="bg-secondary p-6 flex justify-between items-center">
+                  <div>
+                    <h2 className="text-3xl font-bold text-white">Order Details</h2>
+                    <p className="text-accent text-sm mt-1">Order ID: {activeOrder.orderId}</p>
+                  </div>
                   <button
                     onClick={closeModal}
-                    className="text-red-500 font-bold text-xl"
+                    className="text-white hover:bg-white/20 rounded-full p-2 transition text-2xl w-10 h-10 flex items-center justify-center"
                   >
                     ✕
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <p><strong>Order ID:</strong> {activeOrder.orderId}</p>
-                  <p><strong>Status:</strong> {activeOrder.status}</p>
-                  <p><strong>Name:</strong> {activeOrder.name}</p>
-                  <p><strong>Email:</strong> {activeOrder.email}</p>
-                  <p><strong>Phone:</strong> {activeOrder.phone}</p>
-                  <p><strong>Date:</strong> {new Date(activeOrder.date).toLocaleString()}</p>
-                </div>
-
-                <div>
-                  <p className="font-semibold">Address:</p>
-                  <p className="text-sm text-gray-600">
-                    {activeOrder.address}
-                  </p>
-                </div>
-
-                {/* ORDER ITEMS */}
-                {activeOrder.items && (
-                  <div>
-                    <h3 className="font-semibold mb-2">Items</h3>
-                    <table className="w-full border text-sm">
-                      <thead className="bg-gray-100">
-                        <tr>
-                          <th className="p-2">Product</th>
-                          <th className="p-2">Qty</th>
-                          <th className="p-2">Price</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {activeOrder.items.map((item, i) => (
-                          <tr key={i} className="border-t">
-                            <td className="p-2">{item.name}</td>
-                            <td className="p-2">{item.quantity}</td>
-                            <td className="p-2">{item.price}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                {/* Content */}
+                <div className="p-8 space-y-6">
+                  
+                  {/* Status Badge */}
+                  <div className="flex items-center justify-between pb-4 border-b border-black/10">
+                    <span className="text-secondary font-semibold">Status:</span>
+                    <span
+                      className={`px-4 py-2 rounded-full text-sm font-bold
+                        ${
+                          activeOrder.status === "pending"
+                            ? "bg-accent text-secondary"
+                            : activeOrder.status === "completed"
+                            ? "bg-primary text-secondary"
+                            : "bg-black text-white"
+                        }`}
+                    >
+                      {activeOrder.status?.toUpperCase()}
+                    </span>
                   </div>
-                )}
 
-                <div className="text-right text-lg font-bold text-secondary">
-                  Total: Rs. {activeOrder.total?.toFixed(2)}
+                  {/* Customer Info Grid */}
+                  <div>
+                    <h3 className="text-lg font-bold text-secondary mb-4">Customer Information</h3>
+                    <div className="grid grid-cols-2 gap-6 bg-primary p-6 rounded-xl border border-accent/20">
+                      <div>
+                        <label className="text-secondary/70 text-sm font-semibold">Name</label>
+                        <p className="text-lg font-semibold text-secondary mt-1">{activeOrder.name}</p>
+                      </div>
+                      <div>
+                        <label className="text-secondary/70 text-sm font-semibold">Email</label>
+                        <p className="text-lg font-semibold text-secondary mt-1">{activeOrder.email}</p>
+                      </div>
+                      <div>
+                        <label className="text-secondary/70 text-sm font-semibold">Phone</label>
+                        <p className="text-lg font-semibold text-secondary mt-1">{activeOrder.phone}</p>
+                      </div>
+                      <div>
+                        <label className="text-secondary/70 text-sm font-semibold">Order Date</label>
+                        <p className="text-lg font-semibold text-secondary mt-1">
+                          {new Date(activeOrder.date).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Delivery Address */}
+                  <div>
+                    <h3 className="text-lg font-bold text-secondary mb-3">Delivery Address</h3>
+                    <div className="bg-primary border-2 border-accent p-6 rounded-xl">
+                      <p className="text-secondary leading-relaxed">{activeOrder.address}</p>
+                    </div>
+                  </div>
+
+                  {/* Order Items */}
+                  <div>
+                    <h3 className="text-lg font-bold text-secondary mb-4">Order Items</h3>
+                    <div className="border border-accent/30 rounded-xl overflow-hidden">
+                      <table className="w-full">
+                        <thead className="bg-secondary text-white">
+                          <tr>
+                            <th className="p-4 text-left">Product</th>
+                            <th className="p-4 text-center">Quantity</th>
+                            <th className="p-4 text-right">Unit Price</th>
+                            <th className="p-4 text-right">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {activeOrder.products && activeOrder.products.map((item, i) => (
+                            <tr key={i} className={i % 2 === 0 ? "bg-primary" : "bg-white"}>
+                              <td className="p-4 font-semibold text-secondary">{item.name}</td>
+                              <td className="p-4 text-center text-secondary font-semibold">{item.quantity}</td>
+                              <td className="p-4 text-right text-secondary">₨{(Number(item.price) || 0).toFixed(2)}</td>
+                              <td className="p-4 text-right font-bold text-accent">
+                                ₨{(Number(item.price) * item.quantity || 0).toFixed(2)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Price Summary */}
+                  <div className="bg-secondary text-white p-6 rounded-xl">
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg">Subtotal:</span>
+                        <span className="text-lg">₨{(Number(activeOrder.labelledTotal) || 0).toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between items-center pb-3 border-b border-white/30">
+                        <span className="text-lg">Discount:</span>
+                        <span className="text-lg">₨{(Number(activeOrder.labelledTotal) - Number(activeOrder.total) || 0).toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-2xl font-bold">
+                        <span>Final Total:</span>
+                        <span className="text-accent">₨{(Number(activeOrder.total) || 0).toFixed(2)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-4 pt-6 border-t border-accent/30">
+                    <button
+                      onClick={closeModal}
+                      className="flex-1 bg-black/80 hover:bg-black text-white font-bold py-3 px-6 rounded-lg transition duration-300"
+                    >
+                      Close
+                    </button>
+                    <button
+                      className="flex-1 bg-accent hover:bg-accent/80 text-secondary font-bold py-3 px-6 rounded-lg transition duration-300"
+                    >
+                      Print Invoice
+                    </button>
+                  </div>
                 </div>
-
               </div>
             )}
           </Modal>
