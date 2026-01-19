@@ -55,17 +55,17 @@ export default function AdminProductPage() {
   }
 
   return (
-    <div className="w-full h-full p-6 overflow-y-auto relative">
+    <div className="w-full min-h-screen h-full p-4 md:p-6 overflow-y-auto relative">
 
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-secondary">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <h1 className="text-xl md:text-2xl font-bold text-secondary">
           Product Management
         </h1>
 
         <Link
           to="/admin/addProductPage"
-          className="bg-accent hover:bg-secondary hover:text-white transition px-5 py-2 rounded-lg font-semibold shadow"
+          className="w-full md:w-auto bg-accent hover:bg-secondary hover:text-white transition px-5 py-2 rounded-lg font-semibold shadow text-center text-sm md:text-base"
         >
           + Add Product
         </Link>
@@ -77,18 +77,18 @@ export default function AdminProductPage() {
           <div className="w-[60px] h-[60px] border-4 border-gray-300 border-t-accent rounded-full animate-spin"></div>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border border-gray-200 rounded-lg overflow-hidden">
+        <div className="overflow-x-auto rounded-lg">
+          <table className="w-full border border-gray-200 rounded-lg overflow-hidden text-sm md:text-base">
             <thead className="bg-accent text-secondary">
               <tr>
-                <th className="p-3">#</th>
-                <th className="p-3">Product ID</th>
-                <th className="p-3">Name</th>
-                <th className="p-3">Image</th>
-                <th className="p-3">Labelled Price</th>
-                <th className="p-3">Price</th>
-                <th className="p-3">Stock</th>
-                <th className="p-3">Actions</th>
+                <th className="p-2 md:p-3 text-xs md:text-sm">#</th>
+                <th className="p-2 md:p-3 text-xs md:text-sm">Product ID</th>
+                <th className="p-2 md:p-3 text-xs md:text-sm">Name</th>
+                <th className="p-2 md:p-3 text-xs md:text-sm">Image</th>
+                <th className="p-2 md:p-3 text-xs md:text-sm">L. Price</th>
+                <th className="p-2 md:p-3 text-xs md:text-sm">Price</th>
+                <th className="p-2 md:p-3 text-xs md:text-sm">Stock</th>
+                <th className="p-2 md:p-3 text-xs md:text-sm">Actions</th>
               </tr>
             </thead>
 
@@ -105,27 +105,27 @@ export default function AdminProductPage() {
                     key={item._id || item.productId || item.id || index}
                     className="border-t hover:bg-gray-50 transition"
                   >
-                    <td className="p-3">{index + 1}</td>
-                    <td className="p-3">{item.productId}</td>
-                    <td className="p-3 font-medium">{item.name}</td>
+                    <td className="p-2 md:p-3 text-xs md:text-base">{index + 1}</td>
+                    <td className="p-2 md:p-3 text-xs md:text-base">{item.productId}</td>
+                    <td className="p-2 md:p-3 font-medium text-xs md:text-base">{item.name}</td>
 
-                    <td className="p-3 flex justify-center">
+                    <td className="p-2 md:p-3 flex justify-center">
                       <img
                         src={item.image?.[0] || "/placeholder.svg"}
                         alt={item.name}
-                        className="w-[50px] h-[50px] object-cover rounded"
+                        className="w-[40px] md:w-[50px] h-[40px] md:h-[50px] object-cover rounded"
                         onError={(e) => {
                           e.target.src = "/placeholder.svg";
                         }}
                       />
                     </td>
 
-                    <td className="p-3">{item.labelledPrice} LKR</td>
-                    <td className="p-3 font-semibold">{item.price} LKR</td>
-                    <td className="p-3">{item.stock}</td>
+                    <td className="p-2 md:p-3 text-xs md:text-base">{item.labelledPrice}</td>
+                    <td className="p-2 md:p-3 font-semibold text-xs md:text-base">{item.price}</td>
+                    <td className="p-2 md:p-3 text-xs md:text-base">{item.stock}</td>
 
-                    <td className="p-3">
-                      <div className="flex justify-center gap-4">
+                    <td className="p-2 md:p-3">
+                      <div className="flex justify-center gap-2 md:gap-4 text-sm md:text-lg">
                         <FaTrash
                           className="text-red-500 cursor-pointer hover:scale-110 transition"
                           onClick={() => deleteProduct(item.productId || item._id)}

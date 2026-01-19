@@ -13,7 +13,7 @@ export default function ImageSlider(props){
     }
 
     return(
-        <div className="w-[500px] h-[600px] ">
+        <div className="w-[90% ] md:w-[500px] h-[600px] ">
             <img 
                 src={images[currentIndex]} 
                 className="w-full h-full object-cover rounded-3xl" 

@@ -34,32 +34,33 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="w-full h-screen bg-[url('/login-bg.jpg')] flex bg-cover bg-center items-center justify-evenly">
-      <div className="w-[50%] h-full"></div>
+    <div className="w-full min-h-screen bg-[url('/login-bg.jpg')] flex bg-cover bg-center items-center justify-center md:justify-evenly px-4 py-6">
+      <div className="hidden md:block w-[50%] h-full"></div>
 
-      <div className="w-[50%] h-full flex items-center justify-center">
+      <div className="w-full md:w-[50%] h-auto md:h-full flex items-center justify-center py-8 md:py-0">
 
-        <div className="w-[500px] h-[650px] backdrop-blur-md shadow-xl flex flex-col items-center justify-center rounded-[20px]">
+        <div className="w-full max-w-[350px] md:max-w-[500px] h-auto backdrop-blur-md shadow-xl flex flex-col items-center justify-center rounded-[20px] p-8 md:p-10">
+          <h1 className="text-2xl md:text-3xl font-bold text-secondary mb-6">Register</h1>
 
           <input
             placeholder="First Name"
             onChange={(e) => setFirstName(e.target.value)}
             value={firstName}
-            className="w-[300px] h-[50px] border border-[#ccc] rounded-[20px] my-3 px-4"
+            className="w-full max-w-[300px] h-[45px] border border-[#ccc] rounded-[15px] my-2 px-4 text-sm md:text-base focus:outline-none focus:border-accent"
           />
 
           <input
             placeholder="Last Name"
             onChange={(e) => setLastName(e.target.value)}
             value={lastName}
-            className="w-[300px] h-[50px] border border-[#ccc] rounded-[20px] my-3 px-4"
+            className="w-full max-w-[300px] h-[45px] border border-[#ccc] rounded-[15px] my-2 px-4 text-sm md:text-base focus:outline-none focus:border-accent"
           />
 
           <input
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
-            className="w-[300px] h-[50px] border border-[#ccc] rounded-[20px] my-3 px-4"
+            className="w-full max-w-[300px] h-[45px] border border-[#ccc] rounded-[15px] my-2 px-4 text-sm md:text-base focus:outline-none focus:border-accent"
           />
 
           <input
@@ -67,15 +68,19 @@ export default function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             type="password"
-            className="w-[300px] h-[50px] border border-[#ccc] rounded-[20px] my-3 px-4"
+            className="w-full max-w-[300px] h-[45px] border border-[#ccc] rounded-[15px] my-2 px-4 text-sm md:text-base focus:outline-none focus:border-accent"
           />
 
           <button
             onClick={handleRegister}
-            className="w-[150px] h-10 cursor-pointer border border-[#ccc] text-white rounded-[20px] my-5"
+            className="w-full max-w-[300px] h-[45px] cursor-pointer border border-accent bg-accent text-white rounded-[15px] my-6 hover:bg-secondary transition font-semibold text-sm md:text-base"
           >
             Register
           </button>
+
+          <p className="text-white text-center text-xs md:text-sm px-4">
+            Already have an account? <a href="/login" className="text-accent font-bold hover:underline">Login</a>
+          </p>
         </div>
       </div>
     </div>
