@@ -217,3 +217,25 @@ export function getProductById(req, res) {
         });
     }
 }
+
+export async function searchProducts(req, res) {
+    const searchQuery = req.params.query || req.params.searchQuery || "";
+    if (!searchQuery || searchQuery.trim() === "") {
+        return res.status(200).json([]);
+    }
+    try {
+        const products = await Product.find({
+            $or: [
+                { name: { $regex: searchQuery, $options: "i" } },
+                { altNames: { $elemMatch: { $regex: searchQuery, $options: "i" } } }
+            ],
+            isAvailabel: true
+        });
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({
+            message: "Cannot search products",
+            error: error.message
+        });
+    }
+}

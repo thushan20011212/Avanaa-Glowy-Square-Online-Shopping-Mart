@@ -247,3 +247,17 @@ export async function resetPassword(req,res){
         })
     }
 }
+
+export function getUser(req, res) {
+    if(req.user == null) {
+        res.status(403).json({
+            message: "Your account is not authorized to view user details"
+        });
+        return
+    }else{
+        res.json({
+            ...req.user
+        })
+    }
+    res.status(200).json(req.user);
+}

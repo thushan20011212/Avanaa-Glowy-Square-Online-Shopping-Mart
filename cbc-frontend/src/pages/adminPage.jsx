@@ -1,17 +1,47 @@
 import { Link } from "react-router-dom";
 import { Route, Routes , useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import AdminProductPage from "./admin/productPage";
 import AddProductPage from "./admin/addProductPage";
 import EditProductPage from "./admin/editProductPage";
 import AdminOrderPage from "./admin/adminOrderPage";
+import toast from "react-hot-toast";
+import Loading from "../components/loading";
 
 
 export default function AdminPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const path = location.pathname;
+  const [status, setStatus] = useState("loading");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setStatus("unauthenticated");
+      window.location.href = "/login";
+    }else{
+      axios.get(import.meta.env.VITE_BACKEND_URL + "/api/user/", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        if (response.data.role !== "admin") {
+          setStatus("unauthorized");
+          toast.error("You are not authorized to access this page.");
+          window.location.href = "/";
+        } else {
+          setStatus("authenticated");
+        }
+      }).catch((error) => {
+        console.error("Error fetching user data:", error);
+        setStatus("unauthenticated");
+        toast.error("You are not authorized to access this page.");
+        window.location.href = "/login";
+      });
+    }
+  }, []);
 
   function getClass(name){
     if(path.includes(name)){
@@ -22,6 +52,9 @@ export default function AdminPage() {
 
   return (
     <div className="w-full min-h-screen flex flex-col md:flex-row bg-accent">
+        {status == "loading" || status == "unauthenticated" ?
+        <Loading />:
+        <>
         {/* Mobile Header */}
         <div className="md:hidden w-full h-16 bg-white flex items-center justify-between px-4 border-b border-accent">
           <GiHamburgerMenu 
@@ -58,6 +91,8 @@ export default function AdminPage() {
             <Route path="/editProductPage/:id" element={<EditProductPage />} />
           </Routes>
         </div>
+        </>
+        }
     </div>
   );
 }

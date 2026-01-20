@@ -23,6 +23,7 @@ export default function Header() {
                 <Link to="/products" className="text-[20px] font-bold hover:text-blue-600 transition">Products</Link>
                 <Link to="/about" className="text-[20px] font-bold hover:text-blue-600 transition">About</Link>
                 <Link to="/contact" className="text-[20px] font-bold hover:text-blue-600 transition">Contact</Link>
+                <Link to="/search" className="text-[20px] font-bold hover:text-blue-600 transition">Search</Link>
             </div>
             <Link to="/cart" className="w-[80px] h-[80px] hidden md:flex items-center justify-center hover:bg-blue-700 transition">
                 <AiOutlineShoppingCart className="text-white text-3xl" title="Shopping Cart" />
@@ -39,7 +40,7 @@ export default function Header() {
                                 window.location.href = "/";
                             }} src="/logo.png" alt="Logo" className="w-[40px] h-[40px] object-cover cursor-pointer"/>
                         </div>
-                        <div className="w-full h-[calc(100%-80px)] flex flex-col item-center gap-2">
+                        <div className="w-full h-[calc(100%-80px)] flex flex-col items-center gap-2">
                             <a href="/" className="text-[20px] font-bold mx-2 my-4">Home</a>
                             <a href="/products" className="text-[20px] font-bold mx-2 my-4">Products</a>
                             <a href="/about" className="text-[20px] font-bold mx-2 my-4">About</a>
