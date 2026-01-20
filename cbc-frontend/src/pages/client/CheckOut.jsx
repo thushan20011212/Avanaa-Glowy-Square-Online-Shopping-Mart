@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { BiMinus , BiPlus , BiTrash } from "react-icons/bi";
+import { BiMinus, BiPlus, BiTrash } from "react-icons/bi";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 export default function CheckOutPage() {
-    const location = useLocation()
-    const navigate = useNavigate()
-    
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    // Early return for no cart state
     if (!location.state || !location.state.cart) {
         return (
             <div className="w-full h-full flex flex-col justify-center items-center">
@@ -20,19 +20,19 @@ export default function CheckOutPage() {
                     Continue Shopping
                 </button>
             </div>
-        )
+        );
     }
 
-    const [cart, setCart] = useState(location.state?.cart || [])
-    const [phoneNumber, setPhoneNumber] = useState("")
-    const [address, setAddress] = useState("")
+    const [cart, setCart] = useState(location.state?.cart || []);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [address, setAddress] = useState("");
 
     function getTotal() {
         let total = 0;
         cart.forEach(item => {
-            total += item.price * item.qty
-        })
-        return total
+            total += item.price * item.qty;
+        });
+        return total;
     }
 
     function removeFromCart(index) {
@@ -44,31 +44,32 @@ export default function CheckOutPage() {
     function changeQty(index, change) {
         const newCart = [...cart];
         const newQty = newCart[index].qty + change;
-        
+
         if (newQty <= 0) {
             removeFromCart(index);
             return;
         }
-        
+
         newCart[index].qty = newQty;
         setCart(newCart);
     }
 
-    async function placeOrder(){
-        const token = localStorage.getItem("token")
-        if(!token) {
-            toast.error("You need to be logged in to place an order.")
-            return
+    async function placeOrder() {
+        const token = localStorage.getItem("token");
+        
+        if (!token) {
+            toast.error("You need to be logged in to place an order.");
+            return;
         }
 
-        if(!phoneNumber || !address) {
-            toast.error("Please fill in all fields")
-            return
+        if (!phoneNumber || !address) {
+            toast.error("Please fill in all fields");
+            return;
         }
 
-        if(cart.length === 0) {
-            toast.error("Cart is empty")
-            return
+        if (cart.length === 0) {
+            toast.error("Cart is empty");
+            return;
         }
 
         const orderInformation = {
@@ -78,24 +79,23 @@ export default function CheckOutPage() {
             })),
             phone: phoneNumber,
             address: address
-        }
+        };
 
-        try{
+        try {
             const res = await axios.post(import.meta.env.VITE_BACKEND_URL + "/api/orders", orderInformation, {
                 headers: { Authorization: "Bearer " + token }
             });
-            
+
             if (res.status === 201 || res.status === 200) {
                 toast.success("Order placed successfully!");
                 localStorage.removeItem("cart");
                 navigate("/");
             }
         } catch (err) {
-            console.error("Order creation error:", err)
-            toast.error(err.response?.data?.message || "Failed to place order.")
-            return
+            console.error("Order creation error:", err);
+            toast.error(err.response?.data?.message || "Failed to place order.");
+            return;
         }
-
     }
 
     return (

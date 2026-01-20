@@ -1,82 +1,80 @@
-import { useState, useEffect } from "react"
-import { useLocation, useNavigate, Link, useParams } from "react-router-dom"
-import axios from "axios"
-import { toast } from "react-hot-toast"
-import { mediaUpload } from "../../utils/mediaUpload"
-
-
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { mediaUpload } from "../../utils/mediaUpload";
 
 export default function EditProductPage() {
-
     const location = useLocation();
     const { id } = useParams();
     const productData = location.state;
 
-    const [productId,setProductId] = useState(productData?.productId || productData?.ProductId || id || '') 
-    const [name,setName] = useState(productData?.name || '')
-    const [altNames,setAltNames] = useState(productData?.altNames?.join(",") || '')
-    const [description,setDescription] = useState(productData?.description || '')
-    const [images,setImages] = useState([])
-    const [labelledPrice,setLabelledPrice] = useState(productData?.labelledPrice || 0)
-    const [price,setPrice] = useState(productData?.price || 0)
-    const [stock,setStock] = useState(productData?.stock || 0)
-    const navigate = useNavigate()
+    const [productId, setProductId] = useState(productData?.productId || productData?.ProductId || id || "");
+    const [name, setName] = useState(productData?.name || "");
+    const [altNames, setAltNames] = useState(productData?.altNames?.join(",") || "");
+    const [description, setDescription] = useState(productData?.description || "");
+    const [images, setImages] = useState([]);
+    const [labelledPrice, setLabelledPrice] = useState(productData?.labelledPrice || 0);
+    const [price, setPrice] = useState(productData?.price || 0);
+    const [stock, setStock] = useState(productData?.stock || 0);
+    const navigate = useNavigate();
 
     async function UpdateProduct() {
-
         if (!productId) {
-            toast.error("Product ID is required")
-            return
+            toast.error("Product ID is required");
+            return;
         }
 
-        const token = localStorage.getItem("token")
-        if(token == null){
-            toast.error("Please Login First")
-            return
+        const token = localStorage.getItem("token");
+        if (token == null) {
+            toast.error("Please Login First");
+            return;
         }
 
         let imageUrls = productData?.image || [];
-
         const promisesArray = [];
 
-        for (let i=0; i < images.length; i++){
+        for (let i = 0; i < images.length; i++) {
             promisesArray[i] = mediaUpload(images[i]);
         }
-        try{
-            if(images.length > 0){
+
+        try {
+            if (images.length > 0) {
                 imageUrls = await Promise.all(promisesArray);
             }
 
             console.log(imageUrls);
 
-            const altNamesArray = altNames ? altNames.split(",").filter(name => name.trim() !== "") : []
+            const altNamesArray = altNames 
+                ? altNames.split(",").filter(name => name.trim() !== "") 
+                : [];
 
             const product = {
-                productId : productId,
-                name : name,
-                altNames : altNamesArray,
-                description : description,
-                image : imageUrls,
-                labelledPrice : parseFloat(labelledPrice),
-                price : parseFloat(price),
-                stock : parseInt(stock)
-            }
-            axios.put(import.meta.env.VITE_BACKEND_URL + "/api/products/"+productId , product , {
-                headers : {
-                    "Authorization" : "Bearer "+token
+                productId: productId,
+                name: name,
+                altNames: altNamesArray,
+                description: description,
+                image: imageUrls,
+                labelledPrice: parseFloat(labelledPrice),
+                price: parseFloat(price),
+                stock: parseInt(stock)
+            };
+
+            axios.put(import.meta.env.VITE_BACKEND_URL + "/api/products/" + productId, product, {
+                headers: {
+                    "Authorization": "Bearer " + token
                 }
             }).then((res) => {
-                toast.success("Product Updated Successfully")
-                navigate("/admin/products")
-
+                toast.success("Product Updated Successfully");
+                navigate("/admin/products");
             }).catch((e) => {
-                console.log("Error details:", e)
-                console.log("Error response:", e.response)
-                const errorMessage = e.response?.data?.message || e.message || "Failed to update product"
-                toast.error(errorMessage)
-            })
+                console.log("Error details:", e);
+                console.log("Error response:", e.response);
+                const errorMessage = e.response?.data?.message || e.message || "Failed to update product";
+                toast.error(errorMessage);
+            });
 
-        } catch(e){
+        } catch (e) {
             console.log(e);
             toast.error("Failed to update images: " + e);
         }
@@ -227,5 +225,5 @@ export default function EditProductPage() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

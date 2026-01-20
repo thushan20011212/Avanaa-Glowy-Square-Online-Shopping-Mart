@@ -55,7 +55,15 @@ export default function LogInPage() {
       }
     } catch (error) {
       console.log("Login error:", error);
-      toast.error(error.response?.data?.message || "Login failed");
+      const errorMessage = error.response?.data?.message;
+      
+      if (errorMessage === "Incorrect password") {
+        toast.error("Wrong password! Please try again.");
+      } else if (errorMessage === "User not found") {
+        toast.error("No account found with this email.");
+      } else {
+        toast.error(errorMessage || "Login failed. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }

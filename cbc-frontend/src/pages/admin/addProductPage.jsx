@@ -1,82 +1,81 @@
-import { useState } from "react"
-import { toast } from "react-hot-toast"
-import { useNavigate, Link } from "react-router-dom"
-import axios from "axios"
-import { mediaUpload } from "../../utils/mediaUpload.jsx"
-
-
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { mediaUpload } from "../../utils/mediaUpload.jsx";
 
 export default function AddProductPage() {
-
-    const [productId,setProductId] = useState('') 
-    const [name,setName] = useState('')
-    const [altNames,setAltNames] = useState('')
-    const [description,setDescription] = useState('')
-    const [images,setImages] = useState([])
-    const [labelledPrice,setLabelledPrice] = useState(0)
-    const [price,setPrice] = useState(0)
-    const [stock,setStock] = useState(0)
-    const navigate = useNavigate()
+    const [productId, setProductId] = useState("");
+    const [name, setName] = useState("");
+    const [altNames, setAltNames] = useState("");
+    const [description, setDescription] = useState("");
+    const [images, setImages] = useState([]);
+    const [labelledPrice, setLabelledPrice] = useState(0);
+    const [price, setPrice] = useState(0);
+    const [stock, setStock] = useState(0);
+    const navigate = useNavigate();
 
     async function AddProduct() {
-
-        const token = localStorage.getItem("token")
-        if(token == null){
-            toast.error("Please Login First")
-            return
+        const token = localStorage.getItem("token");
+        
+        if (token == null) {
+            toast.error("Please Login First");
+            return;
         }
 
-        if (images.length <=0){
-            toast.error("Please select at least one image")
-            return
+        if (images.length <= 0) {
+            toast.error("Please select at least one image");
+            return;
         }
 
         // Validate required fields
         if (!productId || !name || !description || !labelledPrice || !price || !stock) {
-            toast.error("Please fill in all required fields")
-            return
+            toast.error("Please fill in all required fields");
+            return;
         }
 
         const promisesArray = [];
-
-        for (let i=0; i < images.length; i++){
+        for (let i = 0; i < images.length; i++) {
             promisesArray[i] = mediaUpload(images[i]);
         }
-        try{
+
+        try {
             const imageUrls = await Promise.all(promisesArray);
             console.log("Image URLs uploaded:", imageUrls);
 
-            const altNamesArray = altNames ? altNames.split(",").filter(name => name.trim() !== "") : []
+            const altNamesArray = altNames 
+                ? altNames.split(",").filter(name => name.trim() !== "") 
+                : [];
 
             const product = {
-                productId : productId,
-                name : name,
-                altNames : altNamesArray,
-                description : description,
-                image : imageUrls,
-                labelledPrice : parseFloat(labelledPrice),
-                price : parseFloat(price),
-                stock : parseInt(stock),
-                isAvailabel : true
-            }
-            console.log("Product being sent:", product);
+                productId: productId,
+                name: name,
+                altNames: altNamesArray,
+                description: description,
+                image: imageUrls,
+                labelledPrice: parseFloat(labelledPrice),
+                price: parseFloat(price),
+                stock: parseInt(stock),
+                isAvailabel: true
+            };
             
-            axios.post(import.meta.env.VITE_BACKEND_URL + "/api/products" , product , {
-                headers : {
-                    "Authorization" : "Bearer "+token
+            console.log("Product being sent:", product);
+
+            axios.post(import.meta.env.VITE_BACKEND_URL + "/api/products", product, {
+                headers: {
+                    "Authorization": "Bearer " + token
                 }
             }).then((res) => {
-                toast.success("Product Added Successfully")
-                navigate("/admin/products")
-
+                toast.success("Product Added Successfully");
+                navigate("/admin/products");
             }).catch((e) => {
-                console.log("Error details:", e)
-                console.log("Error response:", e.response)
-                const errorMessage = e.response?.data?.message || e.message || "Failed to add product"
-                toast.error(errorMessage)
-            })
+                console.log("Error details:", e);
+                console.log("Error response:", e.response);
+                const errorMessage = e.response?.data?.message || e.message || "Failed to add product";
+                toast.error(errorMessage);
+            });
 
-        } catch(e){
+        } catch (e) {
             console.log("Upload error:", e);
             toast.error("Failed to upload images: " + e);
         }
@@ -221,5 +220,5 @@ export default function AddProductPage() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

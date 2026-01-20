@@ -4,5 +4,5 @@ export default function UserData() {
             <h2>Havindu Thushan</h2>
             <button>Log Out</button>
         </div>
-    )
+    );
 }

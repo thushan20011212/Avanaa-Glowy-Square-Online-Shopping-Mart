@@ -1,25 +1,23 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import ProductCard from '../../components/productCard';
+import axios from "axios";
+import { useState, useEffect } from "react";
+import ProductCard from "../../components/productCard";
 
 export default function ProductPage() {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(
-        () => {
-            if(isLoading){
-                axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products").then(
-                    (res) => {
-                        setProducts(res.data);
-                        setIsLoading(false);
-                    }
-                ).catch(() => {
+    useEffect(() => {
+        if (isLoading) {
+            axios.get(import.meta.env.VITE_BACKEND_URL + "/api/products")
+                .then((res) => {
+                    setProducts(res.data);
                     setIsLoading(false);
                 })
-            }
-        },[isLoading]
-    )
+                .catch(() => {
+                    setIsLoading(false);
+                });
+        }
+    }, [isLoading]);
 
     return (
         <div className="w-full h-full p-6 bg-gray-50">
@@ -33,12 +31,9 @@ export default function ProductPage() {
                 </div>
             ) : (
                 <div className="flex flex-wrap justify-center gap-6">
-                    {
-                    products.map((product) => {
-                        return (
-                            <ProductCard key={product.productId} product={product} />
-                        );
-                    })}
+                    {products.map((product) => (
+                        <ProductCard key={product.productId} product={product} />
+                    ))}
                 </div>
             )}
         </div>

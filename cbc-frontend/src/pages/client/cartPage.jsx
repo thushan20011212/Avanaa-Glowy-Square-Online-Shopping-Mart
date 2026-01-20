@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { BiMinus , BiPlus , BiTrash } from "react-icons/bi";
-import { addToCart, getCart ,getTotal, removeFromCart } from "../../utils/cart.js";
+import { BiMinus, BiPlus, BiTrash } from "react-icons/bi";
+import { addToCart, getCart, getTotal, removeFromCart } from "../../utils/cart.js";
 import { Link } from "react-router-dom";
 
-
 export default function CartPage() {
-    const [cart, setCart] = useState(getCart())
+    const [cart, setCart] = useState(getCart());
 
     return (
         <div className="w-full min-h-screen flex flex-col items-center px-4 pt-4 pb-28 md:pb-4 relative">
