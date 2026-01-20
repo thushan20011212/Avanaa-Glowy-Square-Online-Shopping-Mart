@@ -36,9 +36,6 @@ export default function AdminReviewPage() {
       );
 
       setReviews(response.data.reviews || []);
-      if (response.data.reviews?.length === 0) {
-        toast.success("No reviews found");
-      }
     } catch (error) {
       console.error("Error fetching reviews:", error);
       toast.error(error.response?.data?.message || "Failed to fetch reviews");

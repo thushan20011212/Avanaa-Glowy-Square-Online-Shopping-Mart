@@ -11,11 +11,11 @@ export default function CheckOutPage() {
     // Early return for no cart state
     if (!location.state || !location.state.cart) {
         return (
-            <div className="w-full h-full flex flex-col justify-center items-center">
+            <div className="w-full h-full flex flex-col justify-center items-center bg-primary">
                 <h1 className="text-2xl font-bold text-secondary mb-4">No items in checkout</h1>
                 <button 
                     onClick={() => navigate("/products")}
-                    className="px-6 py-2 bg-accent text-white rounded-lg hover:bg-secondary transition"
+                    className="px-6 py-2 bg-secondary text-neutral rounded-lg hover:bg-muted transition"
                 >
                     Continue Shopping
                 </button>
@@ -99,26 +99,26 @@ export default function CheckOutPage() {
     }
 
     return (
-        <div className="w-full min-h-screen flex flex-col items-center px-4 pt-4 pb-28 md:pb-4 relative">
+        <div className="w-full min-h-screen flex flex-col items-center px-4 pt-4 pb-28 md:pb-4 relative bg-primary">
             {/* Desktop Summary Card */}
-            <div className="z-50 hidden w-full md:w-[600px] md:max-w-[600px] mb-6 p-6 bg-white rounded-lg shadow-lg md:flex flex-col">
+            <div className="z-50 hidden w-full md:w-[600px] md:max-w-[600px] mb-6 p-6 bg-neutral rounded-lg shadow-lg md:flex flex-col">
                 <h2 className="text-xl md:text-2xl font-bold text-secondary mb-4">Order Summary</h2>
                 <p className="text-lg md:text-xl text-secondary font-bold mb-4">
-                    Total: <span className="text-accent">₨{getTotal().toFixed(2)}</span>
+                    Total: <span className="text-secondary">₨{getTotal().toFixed(2)}</span>
                 </p>
                 
                 <div className="space-y-3 mb-4">
                     <input 
                         type="text" 
                         placeholder="Phone Number" 
-                        className="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none text-sm md:text-base"
+                        className="w-full p-3 rounded-lg border-2 border-accent focus:border-secondary focus:outline-none text-sm md:text-base"
                         value={phoneNumber} 
                         onChange={(e) => setPhoneNumber(e.target.value)} 
                     />
                     <input 
                         type="text" 
                         placeholder="Address" 
-                        className="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none text-sm md:text-base"
+                        className="w-full p-3 rounded-lg border-2 border-accent focus:border-secondary focus:outline-none text-sm md:text-base"
                         value={address} 
                         onChange={(e) => setAddress(e.target.value)} 
                     />
@@ -126,7 +126,7 @@ export default function CheckOutPage() {
                 
                 <button 
                     onClick={placeOrder}
-                    className="w-full text-white bg-accent px-4 py-3 rounded-lg hover:bg-secondary transition-all duration-300 font-semibold text-sm md:text-base"
+                    className="w-full text-neutral bg-secondary px-4 py-3 rounded-lg hover:bg-muted transition-all duration-300 font-semibold text-sm md:text-base"
                 >
                     Place Order
                 </button>
@@ -136,37 +136,37 @@ export default function CheckOutPage() {
             <div className="w-full md:max-w-[600px] space-y-4">
                 {cart.length === 0 ? (
                     <div className="text-center py-8">
-                        <p className="text-gray-500 text-lg">No items in checkout</p>
+                        <p className="text-muted text-lg">No items in checkout</p>
                     </div>
                 ) : (
                     cart.map((item, index) => {
                         return (
-                            <div key={item.productId + index} className="w-full h-auto md:h-24 rounded-xl bg-primary shadow-md flex flex-col md:flex-row items-center justify-between p-4 relative gap-3 md:gap-0">
+                            <div key={item.productId + index} className="w-full h-auto md:h-24 rounded-xl bg-neutral shadow-md flex flex-col md:flex-row items-center justify-between p-4 relative gap-3 md:gap-0">
                                 <img src={item.image || "/placeholder.svg"} alt={item.name} className="w-20 md:w-24 h-20 md:h-24 object-cover rounded-lg"/>
                                 
                                 <div className="flex-1 flex flex-col justify-center items-center md:items-start pl-0 md:pl-4">
                                     <h1 className="text-base md:text-lg text-secondary font-semibold text-center md:text-left">{item.name}</h1>
-                                    <h1 className="text-xs md:text-sm text-gray-600">{item.productId}</h1>
+                                    <h1 className="text-xs md:text-sm text-muted">{item.productId}</h1>
                                     {
                                         item.labelledPrice > item.price ?
                                         <div className="flex gap-2 flex-col md:flex-row justify-center md:justify-start text-xs md:text-sm">
-                                            <span className="text-gray-500 line-through">₨{item.labelledPrice.toFixed(2)}</span>
-                                            <span className="font-bold text-accent">₨{item.price.toFixed(2)}</span>
+                                            <span className="text-muted line-through">₨{item.labelledPrice.toFixed(2)}</span>
+                                            <span className="font-bold text-secondary">₨{item.price.toFixed(2)}</span>
                                         </div>
-                                        : <span className="text-xs md:text-sm font-bold text-accent">₨{item.price.toFixed(2)}</span>
+                                        : <span className="text-xs md:text-sm font-bold text-secondary">₨{item.price.toFixed(2)}</span>
                                     }
                                 </div>
                                 
                                 <div className="flex flex-row gap-2 items-center">
                                     <button 
-                                        className="text-white font-bold rounded-lg p-1 bg-accent hover:bg-secondary transition text-sm md:text-base"
+                                        className="text-neutral font-bold rounded-lg p-1 bg-secondary hover:bg-muted transition text-sm md:text-base"
                                         onClick={() => changeQty(index, -1)}
                                     >
                                         <BiMinus/>
                                     </button>
                                     <span className="text-base md:text-lg font-semibold text-secondary w-8 text-center">{item.qty}</span>
                                     <button 
-                                        className="text-white font-bold rounded-lg p-1 bg-accent hover:bg-secondary transition text-sm md:text-base"
+                                        className="text-neutral font-bold rounded-lg p-1 bg-secondary hover:bg-muted transition text-sm md:text-base"
                                         onClick={() => changeQty(index, 1)}
                                     >
                                         <BiPlus/>
@@ -178,7 +178,7 @@ export default function CheckOutPage() {
                                 </div>
                                 
                                 <button 
-                                    className="text-red-600 hover:bg-red-600 hover:text-white p-2 rounded-full transition text-sm md:text-base"
+                                    className="text-secondary hover:bg-accent hover:text-secondary p-2 rounded-full transition text-sm md:text-base"
                                     onClick={() => removeFromCart(index)}
                                 >
                                     <BiTrash/>
@@ -190,24 +190,24 @@ export default function CheckOutPage() {
             </div>
 
             {/* Mobile Summary Card */}
-            <div className="z-40 fixed bottom-0 left-0 w-full md:hidden bg-white shadow-2xl flex flex-col items-start justify-start p-4 border-t border-gray-300">
+            <div className="z-40 fixed bottom-0 left-0 w-full md:hidden bg-neutral shadow-2xl flex flex-col items-start justify-start p-4 border-t border-accent">
                 <h2 className="text-lg font-bold text-secondary mb-2">Order Summary</h2>
                 <p className="text-base text-secondary font-bold mb-3">
-                    Total: <span className="text-accent">₨{getTotal().toFixed(2)}</span>
+                    Total: <span className="text-secondary">₨{getTotal().toFixed(2)}</span>
                 </p>
                 
                 <div className="space-y-2 mb-3 w-full">
                     <input 
                         type="text" 
                         placeholder="Phone Number" 
-                        className="w-full p-2 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none text-sm"
+                        className="w-full p-2 rounded-lg border-2 border-accent focus:border-secondary focus:outline-none text-sm"
                         value={phoneNumber} 
                         onChange={(e) => setPhoneNumber(e.target.value)} 
                     />
                     <input 
                         type="text" 
                         placeholder="Address" 
-                        className="w-full p-2 rounded-lg border-2 border-gray-300 focus:border-accent focus:outline-none text-sm"
+                        className="w-full p-2 rounded-lg border-2 border-accent focus:border-secondary focus:outline-none text-sm"
                         value={address} 
                         onChange={(e) => setAddress(e.target.value)} 
                     />
@@ -215,7 +215,7 @@ export default function CheckOutPage() {
                 
                 <button 
                     onClick={placeOrder}
-                    className="w-full text-white bg-accent px-4 py-2 rounded-lg hover:bg-secondary transition-all duration-300 font-semibold text-sm"
+                    className="w-full text-neutral bg-secondary px-4 py-2 rounded-lg hover:bg-muted transition-all duration-300 font-semibold text-sm"
                 >
                     Place Order
                 </button>

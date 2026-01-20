@@ -99,7 +99,7 @@ export default function ProductOverviewPage() {
   return (
     <>
       {status === "success" && (
-        <div className="w-full min-h-screen flex flex-col bg-linear-to-b from-gray-50 to-gray-100 pb-[140px] md:pb-8">
+        <div className="w-full min-h-screen flex flex-col bg-primary pb-[140px] md:pb-8">
                     
                     {/* ===== PRODUCT DETAILS SECTION ===== */}
                     <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 md:py-10">
@@ -109,7 +109,7 @@ export default function ProductOverviewPage() {
                             <h1 className="md:hidden text-center text-2xl text-secondary font-bold mb-4 px-2">
                                 {product.name}
                                 {product.altNames && product.altNames.map((altName, index) => (
-                                    <span key={index} className="text-lg text-gray-500 font-normal">{" | " + altName}</span>
+                                    <span key={index} className="text-lg text-muted font-normal">{" | " + altName}</span>
                                 ))}
                             </h1>
 
@@ -129,7 +129,7 @@ export default function ProductOverviewPage() {
                                             {product.name}
                                         </h1>
                                         {product.altNames && (
-                                            <p className="text-base lg:text-lg text-gray-500">
+                                            <p className="text-base lg:text-lg text-muted">
                                                 {product.altNames.map((alt, idx) => (
                                                     <span key={idx}>{idx > 0 ? " | " : ""}{alt}</span>
                                                 ))}
@@ -138,31 +138,31 @@ export default function ProductOverviewPage() {
                                     </div>
 
                                     {/* Product ID & Description */}
-                                    <div className="border-t border-gray-200 pt-4">
-                                        <p className="text-xs md:text-sm text-gray-400 mb-3">
-                                            <span className="font-semibold text-gray-500">SKU:</span> {product.productId}
+                                    <div className="border-t border-accent pt-4">
+                                        <p className="text-xs md:text-sm text-muted mb-3">
+                                            <span className="font-semibold text-secondary">SKU:</span> {product.productId}
                                         </p>
-                                        <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                                        <p className="text-sm md:text-base text-muted leading-relaxed">
                                             {product.description}
                                         </p>
                                     </div>
 
                                     {/* Price Section */}
-                                    <div className="bg-white rounded-xl p-4 md:p-6 shadow-md border border-gray-100">
+                                    <div className="bg-neutral rounded-xl p-4 md:p-6 shadow-md border border-accent">
                                         {product.labelledPrice > product.price ? (
                                             <div className="flex flex-wrap items-center gap-3 md:gap-4">
-                                                <span className="text-lg md:text-2xl text-gray-400 line-through font-medium">
+                                                <span className="text-lg md:text-2xl text-muted line-through font-medium">
                                                     ₨{product.labelledPrice.toFixed(2)}
                                                 </span>
-                                                <span className="text-2xl md:text-4xl font-bold text-accent">
+                                                <span className="text-2xl md:text-4xl font-bold text-secondary">
                                                     ₨{product.price.toFixed(2)}
                                                 </span>
-                                                <span className="text-xs md:text-sm font-bold text-red-500 bg-red-100 px-3 py-1 rounded-full">
+                                                <span className="text-xs md:text-sm font-bold text-secondary bg-accent px-3 py-1 rounded-full">
                                                     Save {Math.round(((product.labelledPrice - product.price) / product.labelledPrice) * 100)}%
                                                 </span>
                                             </div>
                                         ) : (
-                                            <span className="text-2xl md:text-4xl font-bold text-accent">
+                                            <span className="text-2xl md:text-4xl font-bold text-secondary">
                                                 ₨{product.price.toFixed(2)}
                                             </span>
                                         )}
@@ -171,7 +171,7 @@ export default function ProductOverviewPage() {
                                     {/* Desktop Action Buttons */}
                                     <div className="hidden md:flex flex-col gap-3 mt-2">
                                         <button 
-                                            className="w-full h-12 lg:h-14 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all duration-300 shadow-md text-base lg:text-lg"
+                                            className="w-full h-12 lg:h-14 bg-accent text-secondary font-semibold rounded-xl hover:bg-secondary hover:text-neutral transition-all duration-300 shadow-md text-base lg:text-lg"
                                             onClick={() => {
                                                 addToCart(product, 1);
                                                 toast.success(`${product.name} added to cart!`);
@@ -179,7 +179,7 @@ export default function ProductOverviewPage() {
                                             🛒 Add to Cart
                                         </button>
                                         <button 
-                                            className="w-full h-12 lg:h-14 bg-secondary text-white font-semibold rounded-xl hover:bg-secondary/90 transition-all duration-300 shadow-md text-base lg:text-lg"
+                                            className="w-full h-12 lg:h-14 bg-secondary text-neutral font-semibold rounded-xl hover:bg-muted transition-all duration-300 shadow-md text-base lg:text-lg"
                                             onClick={() => {
                                                 navigate("/checkout", { 
                                                     state: { 
@@ -203,10 +203,10 @@ export default function ProductOverviewPage() {
                     </section>
 
                     {/* ===== MOBILE STICKY BUTTONS ===== */}
-                    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t-2 border-gray-200 px-4 py-3 z-40 shadow-2xl">
+                    <div className="md:hidden fixed bottom-0 left-0 right-0 bg-neutral border-t-2 border-accent px-4 py-3 z-40 shadow-2xl">
                         <div className="flex gap-3">
                             <button 
-                                className="flex-1 h-12 bg-accent text-white font-semibold rounded-xl hover:bg-accent/90 transition-all duration-300 shadow-md"
+                                className="flex-1 h-12 bg-accent text-secondary font-semibold rounded-xl hover:bg-secondary hover:text-neutral transition-all duration-300 shadow-md"
                                 onClick={() => {
                                     addToCart(product, 1);
                                     toast.success(`${product.name} added to cart!`);
@@ -214,7 +214,7 @@ export default function ProductOverviewPage() {
                                 🛒 Add to Cart
                             </button>
                             <button 
-                                className="flex-1 h-12 bg-secondary text-white font-semibold rounded-xl hover:bg-secondary/90 transition-all duration-300 shadow-md"
+                                className="flex-1 h-12 bg-secondary text-neutral font-semibold rounded-xl hover:bg-muted transition-all duration-300 shadow-md"
                                 onClick={() => {
                                     navigate("/checkout", { 
                                         state: { 
@@ -246,7 +246,7 @@ export default function ProductOverviewPage() {
 
                             {/* Review Stats */}
                             {reviews.length > 0 && (
-                                <div className="mb-8 p-5 md:p-6 bg-white rounded-xl shadow-md">
+                                <div className="mb-8 p-5 md:p-6 bg-neutral rounded-xl shadow-md">
                                     <div className="flex items-center gap-6">
                                         <div className="flex flex-col items-center">
                                             <div className="text-4xl md:text-5xl font-bold text-secondary">
@@ -254,10 +254,10 @@ export default function ProductOverviewPage() {
                                             </div>
                                             <div className="flex gap-1 mt-2">
                                                 {[...Array(5)].map((_, i) => (
-                                                    <FaStar key={i} className={`text-lg ${i < Math.round(reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length) ? "text-yellow-400" : "text-gray-300"}`} />
+                                                    <FaStar key={i} className={`text-lg ${i < Math.round(reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length) ? "text-secondary" : "text-accent"}`} />
                                                 ))}
                                             </div>
-                                            <p className="text-sm text-gray-600 mt-2 font-medium">{reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}</p>
+                                            <p className="text-sm text-muted mt-2 font-medium">{reviews.length} {reviews.length === 1 ? 'review' : 'reviews'}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -266,14 +266,14 @@ export default function ProductOverviewPage() {
                             {/* Write Review Button */}
                             <button
                                 onClick={() => setShowReviewForm(!showReviewForm)}
-                                className="mb-6 px-6 py-3 bg-secondary text-white rounded-lg hover:bg-secondary/90 transition-all font-semibold text-base shadow-md"
+                                className="mb-6 px-6 py-3 bg-secondary text-neutral rounded-lg hover:bg-muted transition-all font-semibold text-base shadow-md"
                             >
                                 {showReviewForm ? "✕ Cancel" : "✏️ Write a Review"}
                             </button>
 
                             {/* Review Form */}
                             {showReviewForm && (
-                                <div className="mb-8 p-5 md:p-6 bg-white rounded-xl shadow-md border-l-4 border-accent">
+                                <div className="mb-8 p-5 md:p-6 bg-neutral rounded-xl shadow-md border-l-4 border-secondary">
                                     <h3 className="text-lg md:text-xl font-bold text-secondary mb-5">Share Your Experience</h3>
                                     
                                     <div className="mb-5">
@@ -285,7 +285,7 @@ export default function ProductOverviewPage() {
                                                     onClick={() => setRating(star)}
                                                     className="p-1 transition-transform duration-200 hover:scale-110"
                                                 >
-                                                    <FaStar className={`text-2xl md:text-3xl ${star <= rating ? "text-yellow-400" : "text-gray-300"}`} />
+                                                    <FaStar className={`text-2xl md:text-3xl ${star <= rating ? "text-secondary" : "text-accent"}`} />
                                                 </button>
                                             ))}
                                         </div>
@@ -297,7 +297,7 @@ export default function ProductOverviewPage() {
                                             value={comment}
                                             onChange={(e) => setComment(e.target.value)}
                                             placeholder="Share your thoughts about this product..."
-                                            className="w-full p-4 border-2 border-gray-200 rounded-lg text-sm md:text-base focus:outline-none focus:border-accent transition-colors resize-none"
+                                            className="w-full p-4 border-2 border-accent rounded-lg text-sm md:text-base focus:outline-none focus:border-secondary transition-colors resize-none"
                                             rows="4"
                                         />
                                     </div>
@@ -305,7 +305,7 @@ export default function ProductOverviewPage() {
                                     <button
                                         onClick={submitReview}
                                         disabled={isSubmittingReview}
-                                        className="w-full bg-accent text-white px-6 py-3 rounded-lg hover:bg-accent/90 transition-all font-semibold text-base disabled:opacity-50 shadow-md"
+                                        className="w-full bg-secondary text-neutral px-6 py-3 rounded-lg hover:bg-muted transition-all font-semibold text-base disabled:opacity-50 shadow-md"
                                     >
                                         {isSubmittingReview ? "⏳ Submitting..." : "✓ Submit Review"}
                                     </button>
@@ -316,27 +316,27 @@ export default function ProductOverviewPage() {
                             <div className="space-y-4">
                                 {reviewsLoading ? (
                                     <div className="text-center py-12">
-                                        <p className="text-gray-500 text-base">⏳ Loading reviews...</p>
+                                        <p className="text-muted text-base">⏳ Loading reviews...</p>
                                     </div>
                                 ) : reviews.length === 0 ? (
-                                    <div className="text-center py-12 bg-white rounded-xl shadow-sm">
-                                        <p className="text-gray-500 text-base">📝 No reviews yet. Be the first to review this product!</p>
+                                    <div className="text-center py-12 bg-neutral rounded-xl shadow-sm">
+                                        <p className="text-muted text-base">📝 No reviews yet. Be the first to review this product!</p>
                                     </div>
                                 ) : (
                                     reviews.map((review, index) => (
-                                        <div key={index} className="p-5 md:p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-accent">
+                                        <div key={index} className="p-5 md:p-6 bg-neutral rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-secondary">
                                             <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-3 mb-3">
                                                 <div>
                                                     <p className="font-bold text-base md:text-lg text-secondary">{review.user?.name || "Anonymous"}</p>
                                                     <div className="flex gap-1 mt-1">
                                                         {[...Array(5)].map((_, i) => (
-                                                            <FaStar key={i} className={`text-sm ${i < review.rating ? "text-yellow-400" : "text-gray-300"}`} />
+                                                            <FaStar key={i} className={`text-sm ${i < review.rating ? "text-secondary" : "text-accent"}`} />
                                                         ))}
                                                     </div>
                                                 </div>
-                                                <p className="text-xs md:text-sm text-gray-500 font-medium">{new Date(review.createdAt).toLocaleDateString()}</p>
+                                                <p className="text-xs md:text-sm text-muted font-medium">{new Date(review.createdAt).toLocaleDateString()}</p>
                                             </div>
-                                            <p className="text-sm md:text-base text-gray-700 leading-relaxed">{review.comment}</p>
+                                            <p className="text-sm md:text-base text-secondary leading-relaxed">{review.comment}</p>
                                         </div>
                                     ))
                                 )}

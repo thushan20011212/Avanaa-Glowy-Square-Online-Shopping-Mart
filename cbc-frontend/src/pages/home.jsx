@@ -5,23 +5,26 @@ import SearchProductPage from "./client/searchProduct.jsx";
 import ProductOverviewPage from "./client/productOverview.jsx";
 import CartPage from "./client/cartPage.jsx";
 import CheckOutPage from "./client/checkOut.jsx";
+import LandingPage from "./client/landingPage.jsx";
+import AboutPage from "./client/aboutPage.jsx";
+import ContactPage from "./client/contactPage.jsx";
 
 
 export default function HomePage() {
   return (
-    <div className="w-full h-screen flex flex-col items-center">
+    <div className="w-full min-h-screen flex flex-col items-center">
         <Header/>
-        <div className="w-full h-[calc(100vh-80px)] flex flex-col items-center">
+        <div className="w-full flex flex-col items-center">
             <Routes>
-                <Route path="/" element={<h1>Home </h1>} />
+                <Route path="/" element={<LandingPage />} />
                 <Route path="/products" element={<ProductPage />} />
                 <Route path="/search" element={<SearchProductPage />} />
-                <Route path="/about" element={<h1>About </h1>} />
-                <Route path="/contact" element={<h1>Contact </h1>} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
                 <Route path="/overview/:id" element={<ProductOverviewPage />} />
                 <Route path="/checkout" element={<CheckOutPage/>} />
                 <Route path="/cart" element={<CartPage />} />
-                <Route path="*" element={<h1>404 not found</h1>} />
+                <Route path="*" element={<h1 className="text-secondary text-3xl font-bold mt-10">404 not found</h1>} />
             </Routes>
         </div>
     </div>

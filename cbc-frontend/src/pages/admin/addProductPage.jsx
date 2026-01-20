@@ -82,35 +82,38 @@ export default function AddProductPage() {
     }
 
     return (
-        <div className="w-full h-full p-6 overflow-y-auto bg-linear-to-br from-gray-50 to-gray-100">
+        <div className="w-full min-h-screen bg-primary p-4 md:p-8">
+            
             {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-secondary mb-2">Add New Product</h1>
-                <p className="text-gray-600">Fill in all the details below to create a new product</p>
+            <div className="max-w-4xl mx-auto mb-6">
+                <div className="bg-neutral rounded-2xl shadow-lg p-6">
+                    <h1 className="text-3xl font-bold text-secondary mb-2">Add New Product</h1>
+                    <p className="text-muted">Fill in all the details below to create a new product</p>
+                </div>
             </div>
 
             {/* Form Container */}
-            <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <div className="max-w-4xl mx-auto bg-neutral rounded-2xl shadow-lg p-6 md:p-8">
                 
                 {/* Product ID & Name Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Product ID *</label>
+                        <label className="block text-sm font-bold text-secondary mb-2">Product ID *</label>
                         <input 
                             type="text" 
                             placeholder="e.g., PROD_001_MOISTURIZER" 
-                            className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                            className="w-full h-12 border-2 border-accent rounded-xl px-4 bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                             value={productId} 
                             onChange={(e)=>setProductId(e.target.value)}
                         />
-                        <p className="text-xs text-gray-500 mt-1">Unique identifier for the product</p>
+                        <p className="text-xs text-muted mt-1">Unique identifier for the product</p>
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Product Name *</label>
+                        <label className="block text-sm font-bold text-secondary mb-2">Product Name *</label>
                         <input 
                             type="text" 
                             placeholder="e.g., Hydrating Face Moisturizer" 
-                            className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                            className="w-full h-12 border-2 border-accent rounded-xl px-4 bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                             value={name} 
                             onChange={(e)=>setName(e.target.value)}
                         />
@@ -119,23 +122,23 @@ export default function AddProductPage() {
 
                 {/* Alternative Names */}
                 <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Alternative Names</label>
+                    <label className="block text-sm font-bold text-secondary mb-2">Alternative Names</label>
                     <input 
                         type="text" 
                         placeholder="e.g., Daily Hydration Cream, Moisture Boost Lotion (comma separated)" 
-                        className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                        className="w-full h-12 border-2 border-accent rounded-xl px-4 bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                         value={altNames} 
                         onChange={(e)=>setAltNames(e.target.value)}
                     />
-                    <p className="text-xs text-gray-500 mt-1">Separate multiple names with commas</p>
+                    <p className="text-xs text-muted mt-1">Separate multiple names with commas</p>
                 </div>
 
                 {/* Description */}
                 <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label>
+                    <label className="block text-sm font-bold text-secondary mb-2">Description *</label>
                     <textarea 
                         placeholder="Enter detailed product description..." 
-                        className="w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2 min-h-28 resize-none"
+                        className="w-full border-2 border-accent rounded-xl px-4 py-3 bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition min-h-32 resize-none"
                         value={description} 
                         onChange={(e)=>setDescription(e.target.value)}
                     />
@@ -144,36 +147,36 @@ export default function AddProductPage() {
                 {/* Pricing Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Labelled Price (LKR) *</label>
+                        <label className="block text-sm font-bold text-secondary mb-2">Labelled Price (LKR) *</label>
                         <input 
                             type="number" 
                             placeholder="e.g., 45000" 
-                            className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                            className="w-full h-12 border-2 border-accent rounded-xl px-4 bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                             value={labelledPrice} 
                             onChange={(e)=>setLabelledPrice(e.target.value)}
                         />
-                        <p className="text-xs text-gray-500 mt-1">Original/marked price in LKR</p>
+                        <p className="text-xs text-muted mt-1">Original/marked price in LKR</p>
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Selling Price (LKR) *</label>
+                        <label className="block text-sm font-bold text-secondary mb-2">Selling Price (LKR) *</label>
                         <input 
                             type="number" 
                             placeholder="e.g., 32000" 
-                            className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                            className="w-full h-12 border-2 border-accent rounded-xl px-4 bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                             value={price} 
                             onChange={(e)=>setPrice(e.target.value)}
                         />
-                        <p className="text-xs text-gray-500 mt-1">Final selling price in LKR</p>
+                        <p className="text-xs text-muted mt-1">Final selling price in LKR</p>
                     </div>
                 </div>
 
                 {/* Stock */}
                 <div className="mb-6">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Stock Quantity *</label>
+                    <label className="block text-sm font-bold text-secondary mb-2">Stock Quantity *</label>
                     <input 
                         type="number" 
                         placeholder="e.g., 50" 
-                        className="input input-bordered w-full border-2 border-gray-300 focus:border-accent focus:outline-none rounded-lg px-4 py-2"
+                        className="w-full h-12 border-2 border-accent rounded-xl px-4 bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                         value={stock} 
                         onChange={(e)=>setStock(e.target.value)}
                     />
@@ -181,8 +184,8 @@ export default function AddProductPage() {
 
                 {/* Images Upload */}
                 <div className="mb-8">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Product Images</label>
-                    <div className="border-2 border-dashed border-accent rounded-lg p-6 text-center cursor-pointer hover:bg-blue-50 transition">
+                    <label className="block text-sm font-bold text-secondary mb-2">Product Images *</label>
+                    <div className="border-2 border-dashed border-accent/50 rounded-xl p-8 text-center cursor-pointer hover:bg-accent/5 hover:border-secondary transition">
                         <input 
                             type="file" 
                             multiple 
@@ -191,29 +194,29 @@ export default function AddProductPage() {
                             onChange={(e)=>setImages(e.target.files)}
                         />
                         <label htmlFor="imageInput" className="block cursor-pointer">
-                            <div className="text-accent text-3xl mb-2">📸</div>
-                            <p className="font-semibold text-gray-700">Click to select images</p>
-                            <p className="text-xs text-gray-500 mt-1">Supported: JPG, PNG, WebP</p>
+                            <div className="text-5xl mb-3">📸</div>
+                            <p className="font-bold text-secondary mb-1">Click to select images</p>
+                            <p className="text-sm text-muted">Supported: JPG, PNG, WebP</p>
                         </label>
                     </div>
                     {images.length > 0 && (
-                        <div className="mt-3 p-3 bg-blue-50 rounded-lg">
-                            <p className="text-sm text-accent font-semibold">✓ {images.length} image(s) selected</p>
+                        <div className="mt-3 p-4 bg-secondary/10 rounded-xl border border-secondary/20">
+                            <p className="text-sm text-secondary font-bold">✓ {images.length} image(s) selected</p>
                         </div>
                     )}
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex justify-center gap-4 pt-6 border-t border-gray-200">
+                <div className="flex justify-center gap-4 pt-6 border-t-2 border-accent/20">
                     <Link 
                         to="/admin/products" 
-                        className="px-6 py-3 rounded-lg font-semibold border-2 border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+                        className="px-8 py-3 rounded-xl font-bold border-2 border-accent text-secondary hover:bg-accent/10 transition"
                     >
                         Cancel
                     </Link>
                     <button 
                         onClick={AddProduct}
-                        className="px-6 py-3 rounded-lg font-semibold bg-accent text-white hover:bg-secondary transition shadow-md"
+                        className="px-8 py-3 rounded-xl font-bold bg-secondary text-neutral hover:bg-muted hover:scale-105 transition-all duration-300 shadow-lg"
                     >
                         Add Product
                     </button>

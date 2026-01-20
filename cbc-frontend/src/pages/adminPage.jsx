@@ -59,9 +59,9 @@ export default function AdminPage() {
 
   function getClass(name) {
     if (path.includes(name)) {
-      return "bg-accent text-white p-4";
+      return "bg-secondary text-neutral p-4";
     }
-    return "text-accent p-4";
+    return "text-secondary hover:bg-accent p-4";
   }
 
   return (
@@ -71,9 +71,9 @@ export default function AdminPage() {
       ) : (
         <>
           {/* Mobile Header */}
-          <div className="md:hidden w-full h-16 bg-white flex items-center justify-between px-4 border-b border-accent">
+          <div className="md:hidden w-full h-16 bg-neutral flex items-center justify-between px-4 border-b border-accent">
             <GiHamburgerMenu
-              className="text-2xl text-accent cursor-pointer"
+              className="text-2xl text-secondary cursor-pointer"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             />
             <h1 className="text-lg font-bold text-secondary">Admin Panel</h1>
@@ -83,7 +83,7 @@ export default function AdminPage() {
           {/* Sidebar Overlay (Mobile) */}
           {sidebarOpen && (
             <div
-              className="fixed inset-0 bg-black/40 z-40 md:hidden"
+              className="fixed inset-0 bg-secondary/40 z-40 md:hidden"
               onClick={() => setSidebarOpen(false)}
             ></div>
           )}
@@ -92,7 +92,7 @@ export default function AdminPage() {
           <div
             className={`${
               sidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } md:translate-x-0 transition-transform duration-300 fixed md:static left-0 top-0 h-screen md:h-auto w-[250px] lg:w-[300px] flex flex-col text-accent font-bold px-2 md:px-4 gap-2 md:gap-6 py-4 md:py-0 text-sm md:text-lg bg-white overflow-y-auto z-50 md:z-auto`}
+            } md:translate-x-0 transition-transform duration-300 fixed md:static left-0 top-0 h-screen md:h-auto w-[250px] lg:w-[300px] flex flex-col text-secondary font-bold px-2 md:px-4 gap-2 md:gap-6 py-4 md:py-0 text-sm md:text-lg bg-neutral overflow-y-auto z-50 md:z-auto`}
           >
             <Link to="/admin/products" className={`${getClass("products")} whitespace-nowrap`} onClick={() => setSidebarOpen(false)}>
               Products
@@ -110,7 +110,7 @@ export default function AdminPage() {
             {/* Logout Button */}
             <button 
               onClick={handleLogout}
-              className="mt-auto mb-4 p-4 text-red-600 hover:bg-red-100 rounded-lg transition flex items-center gap-2 whitespace-nowrap"
+              className="mt-auto mb-4 p-4 text-secondary hover:bg-accent rounded-lg transition flex items-center gap-2 whitespace-nowrap"
             >
               <FiLogOut className="text-xl" />
               Logout
@@ -118,7 +118,7 @@ export default function AdminPage() {
           </div>
 
           {/* Content Area */}
-          <div className="h-auto md:h-screen w-full md:w-[calc(100%-250px)] lg:w-[calc(100%-300px)] border-accent border-0 md:border-4 rounded-none md:rounded-xl bg-white overflow-y-auto">
+          <div className="h-auto md:h-screen w-full md:w-[calc(100%-250px)] lg:w-[calc(100%-300px)] border-accent border-0 md:border-4 rounded-none md:rounded-xl bg-neutral overflow-y-auto">
             <Routes path="/*">
               <Route path="/products" element={<AdminProductPage />} />
               <Route path="/orders" element={<AdminOrderPage />} />

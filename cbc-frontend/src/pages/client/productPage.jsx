@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import ProductCard from "../../components/productCard";
+import Loading from "../../components/loading";
 
 export default function ProductPage() {
     const [products, setProducts] = useState([]);
@@ -19,23 +20,29 @@ export default function ProductPage() {
         }
     }, [isLoading]);
 
+    if (isLoading) {
+        return <Loading fullScreen={false} message="Loading our premium collection..." />;
+    }
+
     return (
-        <div className="w-full h-full p-6 bg-gray-50">
-            {isLoading ? (
-                <div className="w-full h-[60vh] flex justify-center items-center">
-                    <div className="w-[60px] h-[60px] border-4 border-gray-300 border-t-blue-900 rounded-full animate-spin"></div>
-                </div>
-            ) : products.length === 0 ? (
-                <div className="w-full h-[60vh] flex justify-center items-center">
-                    <p className="text-xl text-gray-500">No products available</p>
-                </div>
-            ) : (
-                <div className="flex flex-wrap justify-center gap-6">
-                    {products.map((product) => (
-                        <ProductCard key={product.productId} product={product} />
-                    ))}
-                </div>
-            )}
+        <div className="w-full min-h-screen bg-primary">
+
+            {/* Products Grid */}
+            <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
+                {products.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-[50vh] space-y-6">
+                        <div className="text-6xl">📦</div>
+                        <h3 className="text-2xl font-bold text-secondary">No Products Available</h3>
+                        <p className="text-muted">Check back soon for new arrivals!</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {products.map((product) => (
+                            <ProductCard key={product.productId} product={product} />
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

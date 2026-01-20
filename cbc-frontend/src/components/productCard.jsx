@@ -43,12 +43,12 @@ const ProductCard = ({ product }) => {
   return (
     <Link to={"/overview/"+product.productId} className="block">
       <div
-        className={`w-[280px] bg-white rounded-2xl shadow-lg overflow-hidden
+        className={`w-[280px] bg-neutral rounded-2xl shadow-lg overflow-hidden
         transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl
         ${!isAvailabel ? "opacity-60 pointer-events-none" : ""}`}
       >
         {/* Image */}
-        <div className="relative h-52 bg-gray-100">
+        <div className="relative h-52 bg-primary">
           <img
             src={image?.[0] || "/placeholder.svg"}
             alt={name}
@@ -59,7 +59,7 @@ const ProductCard = ({ product }) => {
           />
 
           {!isAvailabel && (
-            <span className="absolute top-3 left-3 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full">
+            <span className="absolute top-3 left-3 bg-secondary text-neutral text-xs font-semibold px-3 py-1 rounded-full">
               Out of Stock
             </span>
           )}
@@ -67,22 +67,22 @@ const ProductCard = ({ product }) => {
 
         {/* Content */}
         <div className="p-4 space-y-3">
-          <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-900">
+          <h3 className="text-lg font-semibold text-secondary hover:text-muted">
             {name}
           </h3>
 
-          <p className="text-sm text-gray-500 leading-relaxed">
+          <p className="text-sm text-muted leading-relaxed">
             {description}
           </p>
 
           {/* Price */}
           <div className="flex items-center gap-2">
-            <span className="text-lg font-bold text-blue-900">
+            <span className="text-lg font-bold text-secondary">
               ₨{price?.toFixed(2)}
             </span>
 
             {labelledPrice > price && (
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-sm text-muted line-through">
                 ₨{labelledPrice?.toFixed(2)}
               </span>
             )}
@@ -91,7 +91,7 @@ const ProductCard = ({ product }) => {
           {/* Stock */}
           <div
             className={`text-sm font-medium ${
-              stock > 0 ? "text-emerald-600" : "text-red-500"
+              stock > 0 ? "text-secondary" : "text-muted"
             }`}
           >
             {stock > 0 ? `${stock} in stock` : "No stock available"}
@@ -102,8 +102,8 @@ const ProductCard = ({ product }) => {
             <button
               disabled={!isAvailabel || stock === 0}
               className="flex-1 py-2 px-3 rounded-xl text-xs font-semibold
-              bg-blue-900 text-white transition-colors
-              hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+              bg-secondary text-neutral transition-colors
+              hover:bg-muted disabled:bg-accent disabled:cursor-not-allowed"
               onClick={handleAddToCart}
             >
               Add to Cart
@@ -111,8 +111,8 @@ const ProductCard = ({ product }) => {
             <button
               disabled={!isAvailabel || stock === 0}
               className="flex-1 py-2 px-3 rounded-xl text-xs font-semibold
-              bg-accent text-white transition-colors
-              hover:bg-secondary disabled:bg-gray-300 disabled:cursor-not-allowed"
+              bg-accent text-secondary transition-colors
+              hover:bg-secondary hover:text-neutral disabled:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
               onClick={handleBuyNow}
             >
               Buy Now

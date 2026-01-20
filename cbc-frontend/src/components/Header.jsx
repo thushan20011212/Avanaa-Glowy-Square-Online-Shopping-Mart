@@ -44,11 +44,11 @@ export default function Header() {
             
             {/* Desktop Navigation Links */}
             <div className="w-[calc(100%-160px)] h-full hidden md:flex items-center justify-center gap-6">
-                <Link to="/" className="text-[20px] font-bold hover:text-blue-600 transition">Home</Link>
-                <Link to="/products" className="text-[20px] font-bold hover:text-blue-600 transition">Products</Link>
-                <Link to="/about" className="text-[20px] font-bold hover:text-blue-600 transition">About</Link>
-                <Link to="/contact" className="text-[20px] font-bold hover:text-blue-600 transition">Contact</Link>
-                <Link to="/search" className="text-[20px] font-bold hover:text-blue-600 transition">Search</Link>
+                <Link to="/" className="text-[20px] font-bold text-secondary hover:text-muted transition">Home</Link>
+                <Link to="/products" className="text-[20px] font-bold text-secondary hover:text-muted transition">Products</Link>
+                <Link to="/about" className="text-[20px] font-bold text-secondary hover:text-muted transition">About</Link>
+                <Link to="/contact" className="text-[20px] font-bold text-secondary hover:text-muted transition">Contact</Link>
+                <Link to="/search" className="text-[20px] font-bold text-secondary hover:text-muted transition">Search</Link>
             </div>
             
             {/* Right Side Buttons */}
@@ -56,17 +56,17 @@ export default function Header() {
                 {isLoggedIn ? (
                     <button 
                         onClick={handleLogout}
-                        className="px-4 py-2 text-[16px] font-bold text-white bg-red-600 rounded-lg hover:bg-red-700 transition whitespace-nowrap flex items-center gap-2"
+                        className="px-4 py-2 text-[16px] font-bold text-neutral bg-secondary rounded-lg hover:bg-muted transition whitespace-nowrap flex items-center gap-2"
                     >
                         <FiLogOut />
                         Logout
                     </button>
                 ) : (
                     <>
-                        <Link to="/logIn" className="px-4 py-2 text-[16px] font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition whitespace-nowrap">
+                        <Link to="/logIn" className="px-4 py-2 text-[16px] font-bold text-neutral bg-secondary rounded-lg hover:bg-muted transition whitespace-nowrap">
                             Login
                         </Link>
-                        <Link to="/register" className="px-4 py-2 text-[16px] font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition whitespace-nowrap">
+                        <Link to="/register" className="px-4 py-2 text-[16px] font-bold text-neutral bg-accent rounded-lg hover:bg-secondary hover:text-neutral transition whitespace-nowrap">
                             Sign Up
                         </Link>
                     </>
@@ -74,8 +74,8 @@ export default function Header() {
             </div>
             
             {/* Cart Icon */}
-            <Link to="/cart" className="w-[80px] h-[80px] hidden md:flex items-center justify-center hover:bg-blue-700 transition">
-                <AiOutlineShoppingCart className="text-white text-3xl" title="Shopping Cart" />
+            <Link to="/cart" className="w-[80px] h-[80px] hidden md:flex items-center justify-center hover:bg-accent transition">
+                <AiOutlineShoppingCart className="text-secondary text-3xl" title="Shopping Cart" />
             </Link>
             
             {/* Mobile Side Drawer */}
@@ -95,26 +95,26 @@ export default function Header() {
                             />
                         </div>
                         <div className="w-full h-[calc(100%-80px)] flex flex-col items-center gap-2">
-                            <a href="/" className="text-[20px] font-bold mx-2 my-4">Home</a>
-                            <a href="/products" className="text-[20px] font-bold mx-2 my-4">Products</a>
-                            <a href="/about" className="text-[20px] font-bold mx-2 my-4">About</a>
-                            <a href="/contact" className="text-[20px] font-bold mx-2 my-4">Contact</a>
-                            <a href="/cart" className="text-[20px] font-bold mx-2 my-4"><BsCart3 /></a>
+                            <a href="/" className="text-[20px] font-bold text-secondary mx-2 my-4">Home</a>
+                            <a href="/products" className="text-[20px] font-bold text-secondary mx-2 my-4">Products</a>
+                            <a href="/about" className="text-[20px] font-bold text-secondary mx-2 my-4">About</a>
+                            <a href="/contact" className="text-[20px] font-bold text-secondary mx-2 my-4">Contact</a>
+                            <a href="/cart" className="text-[20px] font-bold text-secondary mx-2 my-4"><BsCart3 /></a>
                             {isLoggedIn ? (
                                 <button 
                                     onClick={() => {
                                         setSideDrawerOpen(false);
                                         handleLogout();
                                     }}
-                                    className="text-[20px] font-bold mx-2 my-4 text-red-600 flex items-center gap-2"
+                                    className="text-[20px] font-bold mx-2 my-4 text-secondary flex items-center gap-2"
                                 >
                                     <FiLogOut />
                                     Logout
                                 </button>
                             ) : (
                                 <>
-                                    <a href="/logIn" className="text-[20px] font-bold mx-2 my-4">Login</a>
-                                    <a href="/register" className="text-[20px] font-bold mx-2 my-4">Sign Up</a>
+                                    <a href="/logIn" className="text-[20px] font-bold text-secondary mx-2 my-4">Login</a>
+                                    <a href="/register" className="text-[20px] font-bold text-secondary mx-2 my-4">Sign Up</a>
                                 </>
                             )}
                         </div>

@@ -74,96 +74,156 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[url('/login-bg.jpg')] bg-cover bg-center flex items-center justify-center md:justify-evenly px-4 py-6">
-      {/* Left side - hidden on mobile */}
-      <div className="hidden md:block w-[50%] h-full"></div>
-
-      {/* Right side - Register Form */}
-      <div className="w-full md:w-[50%] flex items-center justify-center py-8 md:py-0">
-        <div className="w-full max-w-[380px] backdrop-blur-md shadow-xl flex flex-col items-center justify-center rounded-[20px] p-8 md:p-12 gap-6">
-          {/* Title */}
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-            Register
-          </h1>
-          <p className="text-gray-200 text-sm md:text-base mb-4">
-            Create your account with Crystal Beauty Clear
-          </p>
-
-          {/* First Name Input */}
-          <input
-            onChange={(e) => setFirstName(e.target.value)}
-            value={firstName}
-            type="text"
-            placeholder="First Name"
-            className="w-full h-12 border border-[#ccc] rounded-xl px-4 text-sm md:text-base bg-white bg-opacity-90 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent focus:ring-opacity-50 transition"
-          />
-
-          {/* Last Name Input */}
-          <input
-            onChange={(e) => setLastName(e.target.value)}
-            value={lastName}
-            type="text"
-            placeholder="Last Name"
-            className="w-full h-12 border border-[#ccc] rounded-xl px-4 text-sm md:text-base bg-white bg-opacity-90 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent focus:ring-opacity-50 transition"
-          />
-
-          {/* Email Input */}
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            type="email"
-            placeholder="Email Address"
-            className="w-full h-12 border border-[#ccc] rounded-xl px-4 text-sm md:text-base bg-white bg-opacity-90 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent focus:ring-opacity-50 transition"
-          />
-
-          {/* Password Input */}
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            type="password"
-            placeholder="Password"
-            className="w-full h-12 border border-[#ccc] rounded-xl px-4 text-sm md:text-base bg-white bg-opacity-90 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent focus:ring-opacity-50 transition"
-          />
-
-          {/* Register Button */}
-          <button
-            onClick={handleRegister}
-            disabled={isLoading}
-            className="w-full h-12 bg-accent text-white font-bold rounded-xl hover:bg-secondary transition text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "Registering..." : "Register"}
-          </button>
-
-          {/* Divider */}
-          <div className="w-full flex items-center gap-3 my-2">
-            <div className="flex-1 border-t border-gray-300"></div>
-            <span className="text-gray-300 text-xs">Or continue with</span>
-            <div className="flex-1 border-t border-gray-300"></div>
+    <div className="w-full min-h-screen bg-primary flex items-center justify-center px-4 py-4">
+      <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-0 shadow-2xl rounded-3xl overflow-hidden bg-neutral">
+        
+        {/* Left side - Brand Showcase */}
+        <div className="hidden lg:flex flex-col items-center justify-center bg-secondary text-neutral p-12 relative overflow-hidden">
+          {/* Decorative Elements */}
+          <div className="absolute top-10 right-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 left-10 w-60 h-60 bg-muted/20 rounded-full blur-3xl"></div>
+          
+          <div className="relative z-10 space-y-6 text-center">
+            <div className="space-y-3">
+              <h2 className="text-4xl font-bold">Join Us Today</h2>
+              <p className="text-lg text-accent max-w-md">
+                Become part of the Crystal Beauty Clear family
+              </p>
+            </div>
+            <div className="pt-4">
+              <div className="bg-accent/10 rounded-2xl p-6 space-y-2">
+                <h3 className="text-xl font-bold">Member Benefits:</h3>
+                <ul className="space-y-2 text-left text-sm">
+                  <li className="flex items-center gap-2">
+                    <span className="text-xl">✓</span>
+                    <span>Exclusive discounts</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-xl">✓</span>
+                    <span>Early product access</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-xl">✓</span>
+                    <span>Personalized recommendations</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-xl">✓</span>
+                    <span>Free beauty tips</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
+        </div>
 
-          {/* Google Register Button - Coming Soon */}
-          <button
-            onClick={() => {
-              toast.error("Google registration backend endpoint not yet configured. Please use email/password registration.");
-            }}
-            disabled={true}
-            className="w-full h-12 border-2 border-white bg-white bg-opacity-90 text-gray-800 font-semibold rounded-xl hover:bg-opacity-100 transition flex items-center justify-center gap-2 text-sm md:text-base opacity-60 cursor-not-allowed"
-            title="Google registration backend endpoint setup needed"
-          >
-            <FaGoogle className="text-red-500 text-lg" />
-            Sign up with Google (Coming Soon)
-          </button>
+        {/* Right side - Register Form */}
+        <div className="flex items-center justify-center p-6 md:p-10">
+          <div className="w-full max-w-md space-y-6">
+            {/* Title */}
+            <div className="text-center space-y-2">
+              <h1 className="text-3xl font-bold text-secondary">Create Account</h1>
+              <p className="text-muted text-sm">Start your beauty journey today</p>
+            </div>
 
-          {/* Login Link */}
-          <p className="text-gray-200 text-center text-sm md:text-base mt-4">
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-white font-bold hover:underline transition"
-            >
-              Login here
-            </Link>
-          </p>
+            {/* Form */}
+            <div className="space-y-4">
+              {/* Name Fields */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-secondary">First Name</label>
+                  <input
+                    onChange={(e) => setFirstName(e.target.value)}
+                    value={firstName}
+                    type="text"
+                    placeholder="John"
+                    className="w-full h-11 border-2 border-accent rounded-xl px-4 text-sm bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-secondary">Last Name</label>
+                  <input
+                    onChange={(e) => setLastName(e.target.value)}
+                    value={lastName}
+                    type="text"
+                    placeholder="Doe"
+                    className="w-full h-11 border-2 border-accent rounded-xl px-4 text-sm bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
+                  />
+                </div>
+              </div>
+
+              {/* Email Input */}
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-secondary">Email Address</label>
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                  type="email"
+                  placeholder="john@example.com"
+                  className="w-full h-11 border-2 border-accent rounded-xl px-4 text-sm bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
+                />
+              </div>
+
+              {/* Password Input */}
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-secondary">Password</label>
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  value={password}
+                  type="password"
+                  placeholder="Create a strong password"
+                  className="w-full h-11 border-2 border-accent rounded-xl px-4 text-sm bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
+                />
+                <p className="text-xs text-muted">Must be at least 8 characters</p>
+              </div>
+
+              {/* Register Button */}
+              <button
+                onClick={handleRegister}
+                disabled={isLoading}
+                className="w-full h-11 bg-secondary text-neutral font-bold rounded-xl hover:bg-muted hover:scale-[1.02] transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
+                {isLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <div className="w-5 h-5 border-2 border-neutral border-t-transparent rounded-full animate-spin"></div>
+                    Creating account...
+                  </span>
+                ) : "Create Account"}
+              </button>
+
+              {/* Divider */}
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-accent"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-neutral text-muted">Or continue with</span>
+                </div>
+              </div>
+
+              {/* Google Register Button */}
+              <button
+                onClick={() => {
+                  toast.error("Google registration backend endpoint not yet configured. Please use email/password registration.");
+                }}
+                disabled={true}
+                className="w-full h-11 border-2 border-accent bg-primary text-secondary font-semibold rounded-xl hover:bg-accent/10 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3 opacity-60 cursor-not-allowed"
+              >
+                <FaGoogle className="text-lg" />
+                Sign up with Google
+              </button>
+
+              {/* Login Link */}
+              <p className="text-center text-muted text-sm pt-2">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="text-secondary font-bold hover:underline transition"
+                >
+                  Sign In
+                </Link>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
