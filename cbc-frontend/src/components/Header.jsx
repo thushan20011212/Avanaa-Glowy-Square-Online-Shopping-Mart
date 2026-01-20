@@ -25,6 +25,15 @@ export default function Header() {
                 <Link to="/contact" className="text-[20px] font-bold hover:text-blue-600 transition">Contact</Link>
                 <Link to="/search" className="text-[20px] font-bold hover:text-blue-600 transition">Search</Link>
             </div>
+            {/* Right side buttons and cart */}
+            <div className="hidden md:flex items-center gap-3 pr-4">
+                <Link to="/logIn" className="px-4 py-2 text-[16px] font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition whitespace-nowrap">
+                    Login
+                </Link>
+                <Link to="/register" className="px-4 py-2 text-[16px] font-bold text-white bg-green-600 rounded-lg hover:bg-green-700 transition whitespace-nowrap">
+                    Sign Up
+                </Link>
+            </div>
             <Link to="/cart" className="w-[80px] h-[80px] hidden md:flex items-center justify-center hover:bg-blue-700 transition">
                 <AiOutlineShoppingCart className="text-white text-3xl" title="Shopping Cart" />
             </Link>
@@ -43,9 +52,12 @@ export default function Header() {
                         <div className="w-full h-[calc(100%-80px)] flex flex-col items-center gap-2">
                             <a href="/" className="text-[20px] font-bold mx-2 my-4">Home</a>
                             <a href="/products" className="text-[20px] font-bold mx-2 my-4">Products</a>
+  
                             <a href="/about" className="text-[20px] font-bold mx-2 my-4">About</a>
                             <a href="/contact" className="text-[20px] font-bold mx-2 my-4">Contact</a>
                             <a href="/cart" className="text-[20px] font-bold mx-2 my-4"><BsCart3 /></a>
+                            <a href="/logIn" className="text-[20px] font-bold mx-2 my-4">Login</a>
+                            <a href="/register" className="text-[20px] font-bold mx-2 my-4">Sign Up</a>
                         </div>
 
                     </div>
