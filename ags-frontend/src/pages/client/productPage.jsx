@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import ProductCard from "../../components/productCard";
 import Loading from "../../components/loading";
+import ScrollToTop from "../../components/scrollToTop";
 
 export default function ProductPage() {
     const [products, setProducts] = useState([]);
@@ -25,9 +26,10 @@ export default function ProductPage() {
     }
 
     return (
-        <div className="w-full min-h-screen bg-primary">
+        <div className="w-full min-h-screen bg-primary pt-20">
 
             {/* Products Grid */}
+            <ScrollToTop />
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
                 {products.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-[50vh] space-y-6">
