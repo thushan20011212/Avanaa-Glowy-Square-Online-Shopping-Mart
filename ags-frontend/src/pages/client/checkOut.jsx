@@ -88,8 +88,12 @@ export default function CheckOutPage() {
 
             if (res.status === 201 || res.status === 200) {
                 toast.success("Order placed successfully!");
+                // Clear cart from localStorage
                 localStorage.removeItem("cart");
-                navigate("/");
+                // Trigger cart update event to refresh the cart badge
+                window.dispatchEvent(new Event('cartUpdated'));
+                // Redirect to orders page to see the new order
+                navigate("/orders");
             }
         } catch (err) {
             console.error("Order creation error:", err);

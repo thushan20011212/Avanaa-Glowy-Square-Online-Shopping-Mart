@@ -171,38 +171,58 @@ export default function OrderHistoryPage() {
                                     {/* Order Items */}
                                     <div className="p-6">
                                         <h4 className="font-semibold text-secondary mb-4 text-lg">
-                                            Order Items
+                                            Order Items ({order.products?.length || 0} {order.products?.length === 1 ? 'item' : 'items'})
                                         </h4>
-                                        <div className="space-y-3">
-                                            {order.orderItems && order.orderItems.map((item, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="flex items-center gap-4 p-4 bg-primary rounded-lg hover:bg-accent/10 transition-colors"
-                                                >
-                                                    <img
-                                                        src={item.image || "/placeholder.svg"}
-                                                        alt={item.name}
-                                                        className="w-16 h-16 object-cover rounded-lg shadow-sm"
-                                                    />
-                                                    <div className="flex-1">
-                                                        <p className="font-semibold text-secondary">
-                                                            {item.name}
-                                                        </p>
-                                                        <p className="text-sm text-muted">
-                                                            Quantity: {item.qty}
-                                                        </p>
+                                        {!order.products || order.products.length === 0 ? (
+                                            <div className="text-center py-8 bg-primary rounded-lg border border-accent/10">
+                                                <FiPackage className="text-4xl text-accent/50 mx-auto mb-2" />
+                                                <p className="text-muted">No items in this order</p>
+                                            </div>
+                                        ) : (
+                                            <div className="space-y-3">
+                                                {order.products.map((product, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="flex items-center gap-4 p-4 bg-primary rounded-lg hover:bg-accent/10 transition-colors border border-accent/10"
+                                                    >
+                                                        <img
+                                                            src={product.images && product.images.length > 0 ? product.images[0] : "/placeholder.svg"}
+                                                            alt={product.name}
+                                                            className="w-20 h-20 object-cover rounded-lg shadow-sm border border-accent/20"
+                                                        />
+                                                        <div className="flex-1">
+                                                            <p className="font-bold text-secondary text-lg mb-1">
+                                                                {product.name}
+                                                            </p>
+                                                            {product.description && (
+                                                                <p className="text-sm text-muted mb-2 line-clamp-2">
+                                                                    {product.description}
+                                                                </p>
+                                                            )}
+                                                            <div className="flex items-center gap-4">
+                                                                <span className="text-sm text-muted font-semibold">
+                                                                    Quantity: <span className="text-secondary">{product.quantity}</span>
+                                                                </span>
+                                                                <span className="text-sm text-muted font-semibold">
+                                                                    Price: <span className="text-secondary">Rs. {product.price?.toFixed(2)}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="text-right">
+                                                            <p className="text-sm text-muted mb-1">Subtotal</p>
+                                                            <p className="font-bold text-secondary text-xl">
+                                                                Rs. {((product.price || 0) * (product.quantity || 0)).toFixed(2)}
+                                                            </p>
+                                                            {product.labelledPrice && product.labelledPrice > product.price && (
+                                                                <p className="text-xs text-muted line-through">
+                                                                    Rs. {((product.labelledPrice || 0) * (product.quantity || 0)).toFixed(2)}
+                                                                </p>
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                    <div className="text-right">
-                                                        <p className="font-bold text-secondary text-lg">
-                                                            Rs. {(item.price * item.qty).toFixed(2)}
-                                                        </p>
-                                                        <p className="text-sm text-muted">
-                                                            Rs. {item.price} each
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Order Footer */}
