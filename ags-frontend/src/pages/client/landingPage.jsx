@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import ProductCard from "../../components/productCard"
 import Splash from "../../components/splash"
+import { IoDiamondOutline } from "react-icons/io5"
+import { TbTruckDelivery } from "react-icons/tb"
+import { BiSupport } from "react-icons/bi"
 
 // Avanaa Glowy Square Landing Page
 export default function LandingPage() {
@@ -395,7 +398,7 @@ export default function LandingPage() {
                             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
                             <div className="relative z-10">
                                 <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
-                                    <span className="text-3xl">💎</span>
+                                    <IoDiamondOutline className="text-4xl text-neutral" />
                                 </div>
                                 <h3 className="text-2xl font-bold text-secondary mb-3">Premium Quality</h3>
                                 <p className="text-muted leading-relaxed">
@@ -409,7 +412,7 @@ export default function LandingPage() {
                             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
                             <div className="relative z-10">
                                 <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
-                                    <span className="text-3xl">�</span>
+                                    <TbTruckDelivery className="text-4xl text-neutral" />
                                 </div>
                                 <h3 className="text-2xl font-bold text-secondary mb-3">Fast Delivery</h3>
                                 <p className="text-muted leading-relaxed">
@@ -423,7 +426,7 @@ export default function LandingPage() {
                             <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500"></div>
                             <div className="relative z-10">
                                 <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
-                                    <span className="text-3xl">�</span>
+                                    <BiSupport className="text-4xl text-neutral" />
                                 </div>
                                 <h3 className="text-2xl font-bold text-secondary mb-3">Expert Support</h3>
                                 <p className="text-muted leading-relaxed">
