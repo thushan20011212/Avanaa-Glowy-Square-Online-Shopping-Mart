@@ -153,7 +153,7 @@ export default function RegisterPage() {
                     onChange={(e) => setFirstName(e.target.value)}
                     value={firstName}
                     type="text"
-                    placeholder="John"
+                    placeholder="Havindu"
                     className="w-full h-11 border-2 border-accent rounded-xl px-4 text-sm bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                   />
                 </div>
@@ -163,7 +163,7 @@ export default function RegisterPage() {
                     onChange={(e) => setLastName(e.target.value)}
                     value={lastName}
                     type="text"
-                    placeholder="Doe"
+                    placeholder="Thushan"
                     className="w-full h-11 border-2 border-accent rounded-xl px-4 text-sm bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                   />
                 </div>
@@ -176,7 +176,7 @@ export default function RegisterPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                   type="email"
-                  placeholder="john@example.com"
+                  placeholder="havindu@example.com"
                   className="w-full h-11 border-2 border-accent rounded-xl px-4 text-sm bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                 />
                 <p className="text-xs text-muted">Must contain @ and .</p>

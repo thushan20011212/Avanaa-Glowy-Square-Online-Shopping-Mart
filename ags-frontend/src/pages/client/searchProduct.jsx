@@ -75,31 +75,10 @@ export default function SearchProductPage() {
                     <Loading fullScreen={false} message="Searching products..." />
                 ) : query.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-20 space-y-6">
-                        <div className="text-7xl">🔎</div>
                         <h3 className="text-2xl font-bold text-secondary">Start Your Search</h3>
                         <p className="text-muted text-center max-w-md">
                             Enter a product name, brand, or category in the search box above to find what you're looking for
                         </p>
-                        <div className="flex flex-wrap gap-3 justify-center pt-4">
-                            <button 
-                                onClick={() => setQuery("lipstick")}
-                                className="px-4 py-2 bg-secondary/10 text-secondary rounded-full hover:bg-secondary hover:text-neutral transition"
-                            >
-                                💄 Lipstick
-                            </button>
-                            <button 
-                                onClick={() => setQuery("skincare")}
-                                className="px-4 py-2 bg-secondary/10 text-secondary rounded-full hover:bg-secondary hover:text-neutral transition"
-                            >
-                                ✨ Skincare
-                            </button>
-                            <button 
-                                onClick={() => setQuery("perfume")}
-                                className="px-4 py-2 bg-secondary/10 text-secondary rounded-full hover:bg-secondary hover:text-neutral transition"
-                            >
-                                🌸 Perfume
-                            </button>
-                        </div>
                     </div>
                 ) : products.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-20 space-y-6">

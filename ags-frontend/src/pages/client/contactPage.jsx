@@ -75,7 +75,7 @@ export default function ContactPage() {
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    placeholder="John Doe"
+                                    placeholder="Havindu Thushan"
                                     className="w-full h-12 border-2 border-accent rounded-xl px-4 text-base bg-neutral focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                                 />
                             </div>
@@ -88,7 +88,7 @@ export default function ContactPage() {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    placeholder="john@example.com"
+                                    placeholder="thushan@example.com"
                                     className="w-full h-12 border-2 border-accent rounded-xl px-4 text-base bg-neutral focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition"
                                 />
                             </div>
@@ -173,7 +173,6 @@ export default function ContactPage() {
                                     </div>
                                     <div className="space-y-2">
                                         <h3 className="text-xl font-bold text-secondary">Call Us</h3>
-                                        <p className="text-muted">Monday - Saturday, 9 AM - 6 PM</p>
                                         <a href="tel:+94123456789" className="text-secondary font-semibold hover:underline">
                                             +94 123 456 789
                                         </a>
