@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import ProductCard from "../../components/productCard"
 import Splash from "../../components/splash"
+import ScrollToTop from "../../components/scrollToTop"
 import { IoDiamondOutline } from "react-icons/io5"
 import { TbTruckDelivery } from "react-icons/tb"
 import { BiSupport } from "react-icons/bi"
+import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
 
 // Avanaa Glowy Square Landing Page
 export default function LandingPage() {
@@ -81,8 +83,9 @@ export default function LandingPage() {
     }
 
     return (
-        <div className="w-full min-h-screen">
+        <div className="w-full min-h-screen pt-26">
             {/* Hero Section */}
+            <ScrollToTop />
             <section className="relative w-full min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-primary via-neutral to-primary overflow-hidden">
                 {/* Subtle Background Blur */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -94,7 +97,7 @@ export default function LandingPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                         {/* Left Content */}
                         <div className="text-center lg:text-left space-y-6 animate-fade-in">
-                            <div className="inline-block px-6 py-3 bg-secondary/10 backdrop-blur-xl rounded-full border border-accent/30 shadow-lg">
+                            <div className="inline-block px-8 py-3 bg-secondary/10 backdrop-blur-xl rounded-full border border-accent/30 shadow-lg">
                                 <p className="text-sm font-semibold text-secondary uppercase tracking-wider">Premium Cosmetics Brand</p>
                             </div>
                             
@@ -160,7 +163,8 @@ export default function LandingPage() {
                         {/* Right Image - Ultra-Modern Auto-Changing Animated Gallery */}
                         <div className="relative hidden lg:block">
                             {/* Main Container with slight size adjustment */}
-                            <div className="relative w-full h-[620px]">
+                            {/* Change mt-X to move down (mt-10, mt-20) or -mt-X to move up (-mt-10, -mt-20) */}
+                            <div className="relative w-full h-[620px] -mt-35">
                                 
                                 {/* Floating Background Particles */}
                                 <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
@@ -232,82 +236,6 @@ export default function LandingPage() {
                                 {/* Outer Glow Effect */}
                                 <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-accent/10 via-transparent to-secondary/10 blur-2xl -z-10 animate-pulse-glow"></div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Brand Story Section - NEW */}
-            <section className="w-full py-20 bg-gradient-to-br from-neutral via-primary to-neutral relative overflow-hidden">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                        {/* Left: Content */}
-                        <div className="space-y-6">
-                            <div className="inline-block px-4 py-2 bg-secondary text-neutral rounded-full text-sm font-semibold uppercase tracking-wider">
-                                Our Philosophy
-                            </div>
-                            <h2 className="text-4xl md:text-5xl font-bold text-secondary leading-tight">
-                                Beauty That Speaks For Itself
-                            </h2>
-                            <p className="text-lg text-muted leading-relaxed">
-                                At Avanaa Glowy Square, we believe that true beauty comes from confidence and authenticity. 
-                                Our carefully curated collection combines the finest ingredients with cutting-edge formulations 
-                                to bring out your natural radiance.
-                            </p>
-                            <div className="grid grid-cols-2 gap-6 pt-4">
-                                <div className="space-y-2">
-                                    <div className="text-3xl">🌿</div>
-                                    <h3 className="font-bold text-secondary">Natural Ingredients</h3>
-                                    <p className="text-sm text-muted">Sustainably sourced, ethically made</p>
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="text-3xl">🔬</div>
-                                    <h3 className="font-bold text-secondary">Science-Backed</h3>
-                                    <p className="text-sm text-muted">Proven formulations that work</p>
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="text-3xl">🐰</div>
-                                    <h3 className="font-bold text-secondary">Cruelty-Free</h3>
-                                    <p className="text-sm text-muted">Never tested on animals</p>
-                                </div>
-                                <div className="space-y-2">
-                                    <div className="text-3xl">♻️</div>
-                                    <h3 className="font-bold text-secondary">Eco-Conscious</h3>
-                                    <p className="text-sm text-muted">Sustainable packaging solutions</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {/* Right: Stats Card */}
-                        <div className="relative">
-                            <div className="bg-secondary p-12 rounded-3xl text-neutral shadow-2xl">
-                                <div className="space-y-8">
-                                    <div className="border-b border-neutral/20 pb-6">
-                                        <p className="text-6xl font-bold">{totalProducts}</p>
-                                        <p className="text-xl text-neutral/80 mt-2">Premium Products</p>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-6">
-                                        <div>
-                                            <p className="text-4xl font-bold">100%</p>
-                                            <p className="text-sm text-neutral/80 mt-1">Authentic</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-4xl font-bold">Fast</p>
-                                            <p className="text-sm text-neutral/80 mt-1">Delivery</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-4xl font-bold">Safe</p>
-                                            <p className="text-sm text-neutral/80 mt-1">Payment</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-4xl font-bold">24/7</p>
-                                            <p className="text-sm text-neutral/80 mt-1">Support</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Decorative Element */}
-                            <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-accent/30 rounded-full blur-3xl -z-10"></div>
                         </div>
                     </div>
                 </div>
@@ -467,6 +395,82 @@ export default function LandingPage() {
                 </div>
             </section>
 
+            {/* Brand Story Section - NEW */}
+            <section className="w-full py-20 bg-gradient-to-br from-neutral via-primary to-neutral relative overflow-hidden">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        {/* Left: Content */}
+                        <div className="space-y-6">
+                            <div className="inline-block px-4 py-2 bg-secondary text-neutral rounded-full text-sm font-semibold uppercase tracking-wider">
+                                Our Philosophy
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-bold text-secondary leading-tight">
+                                Beauty That Speaks For Itself
+                            </h2>
+                            <p className="text-lg text-muted leading-relaxed">
+                                At Avanaa Glowy Square, we believe that true beauty comes from confidence and authenticity. 
+                                Our carefully curated collection combines the finest ingredients with cutting-edge formulations 
+                                to bring out your natural radiance.
+                            </p>
+                            <div className="grid grid-cols-2 gap-6 pt-4">
+                                <div className="space-y-2">
+                                    <div className="text-3xl">🌿</div>
+                                    <h3 className="font-bold text-secondary">Natural Ingredients</h3>
+                                    <p className="text-sm text-muted">Sustainably sourced, ethically made</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <div className="text-3xl">🔬</div>
+                                    <h3 className="font-bold text-secondary">Science-Backed</h3>
+                                    <p className="text-sm text-muted">Proven formulations that work</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <div className="text-3xl">🐰</div>
+                                    <h3 className="font-bold text-secondary">Cruelty-Free</h3>
+                                    <p className="text-sm text-muted">Never tested on animals</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <div className="text-3xl">♻️</div>
+                                    <h3 className="font-bold text-secondary">Eco-Conscious</h3>
+                                    <p className="text-sm text-muted">Sustainable packaging solutions</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {/* Right: Stats Card */}
+                        <div className="relative">
+                            <div className="bg-secondary p-12 rounded-3xl text-neutral shadow-2xl">
+                                <div className="space-y-8">
+                                    <div className="border-b border-neutral/20 pb-6">
+                                        <p className="text-6xl font-bold">{totalProducts}</p>
+                                        <p className="text-xl text-neutral/80 mt-2">Premium Products</p>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div>
+                                            <p className="text-4xl font-bold">100%</p>
+                                            <p className="text-sm text-neutral/80 mt-1">Authentic</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-4xl font-bold">Fast</p>
+                                            <p className="text-sm text-neutral/80 mt-1">Delivery</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-4xl font-bold">Safe</p>
+                                            <p className="text-sm text-neutral/80 mt-1">Payment</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-4xl font-bold">24/7</p>
+                                            <p className="text-sm text-neutral/80 mt-1">Support</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* Decorative Element */}
+                            <div className="absolute -bottom-6 -right-6 w-48 h-48 bg-accent/30 rounded-full blur-3xl -z-10"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Newsletter CTA Section */}
             <section className="w-full py-20 bg-gradient-to-r from-secondary via-muted to-secondary relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
@@ -482,7 +486,7 @@ export default function LandingPage() {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto">
                         <input
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder="(Dummy newsletter section)"
                             className="flex-1 px-6 py-4 rounded-xl border-2 border-accent bg-neutral text-secondary placeholder-muted focus:outline-none focus:border-neutral transition-colors"
                         />
                         <button className="px-8 py-4 bg-neutral text-secondary rounded-xl font-bold hover:bg-accent transition-all duration-300 hover:scale-105">
@@ -530,14 +534,14 @@ export default function LandingPage() {
                         <div>
                             <h4 className="text-lg font-bold mb-4">Connect With Us</h4>
                             <div className="flex gap-4">
-                                <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-neutral hover:text-secondary transition-all">
-                                    <span>📘</span>
+                                <a href="https://www.facebook.com/" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-neutral hover:text-secondary transition-all">
+                                    <span><FaFacebook /></span>
                                 </a>
-                                <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-neutral hover:text-secondary transition-all">
-                                    <span>📷</span>
+                                <a href="https://www.instagram.com/" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-neutral hover:text-secondary transition-all">
+                                    <span><FaInstagram /></span>
                                 </a>
-                                <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-neutral hover:text-secondary transition-all">
-                                    <span>🐦</span>
+                                <a href="https://www.youtube.com/" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center hover:bg-neutral hover:text-secondary transition-all">
+                                    <span><FaYoutube /></span>
                                 </a>
                             </div>
                         </div>

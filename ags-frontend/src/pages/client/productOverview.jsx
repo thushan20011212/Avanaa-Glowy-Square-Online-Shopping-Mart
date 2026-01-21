@@ -21,6 +21,7 @@ export default function ProductOverviewPage() {
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [rating, setRating] = useState(5);
+  const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState("");
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
@@ -59,7 +60,7 @@ export default function ProductOverviewPage() {
 
   // Submit a new review
   async function submitReview() {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       toast.error("Please login to submit a review");
       return;
@@ -99,7 +100,7 @@ export default function ProductOverviewPage() {
   return (
     <>
       {status === "success" && (
-        <div className="w-full min-h-screen flex flex-col bg-primary pb-[140px] md:pb-8">
+        <div className="w-full min-h-screen flex flex-col bg-primary pb-[140px] md:pb-8 pt-20">
                     
                     {/* ===== PRODUCT DETAILS SECTION ===== */}
                     <section className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-6 md:py-10">
@@ -242,7 +243,7 @@ export default function ProductOverviewPage() {
                             
                                 {/* Reviews Header */}
                                 <h2 className="text-2xl md:text-3xl font-bold text-secondary mb-6">
-                                    ⭐ Customer Reviews
+                                    Customer Reviews
                             </h2>
 
                             {/* Review Stats */}
@@ -269,7 +270,7 @@ export default function ProductOverviewPage() {
                                 onClick={() => setShowReviewForm(!showReviewForm)}
                                 className="mb-6 px-6 py-3 bg-secondary text-neutral rounded-lg hover:bg-muted transition-all font-semibold text-base shadow-md"
                             >
-                                {showReviewForm ? "✕ Cancel" : "✏️ Write a Review"}
+                                {showReviewForm ? "✕ Cancel" : "Write a Review"}
                             </button>
 
                             {/* Review Form */}
@@ -283,13 +284,26 @@ export default function ProductOverviewPage() {
                                             {[1, 2, 3, 4, 5].map((star) => (
                                                 <button
                                                     key={star}
+                                                    type="button"
                                                     onClick={() => setRating(star)}
-                                                    className="p-1 transition-transform duration-200 hover:scale-110"
+                                                    onMouseEnter={() => setHoverRating(star)}
+                                                    onMouseLeave={() => setHoverRating(0)}
+                                                    className="p-1 transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 rounded"
+                                                    aria-label={`Rate ${star} star${star !== 1 ? 's' : ''}`}
                                                 >
-                                                    <FaStar className={`text-2xl md:text-3xl ${star <= rating ? "text-secondary" : "text-accent"}`} />
+                                                    <FaStar 
+                                                        className={`text-2xl md:text-3xl transition-colors duration-200 ${
+                                                            star <= (hoverRating || rating) 
+                                                                ? "text-secondary" 
+                                                                : "text-accent"
+                                                        }`} 
+                                                    />
                                                 </button>
                                             ))}
                                         </div>
+                                        <p className="text-xs md:text-sm text-muted mt-2 font-medium">
+                                            {hoverRating ? `${hoverRating} star${hoverRating !== 1 ? 's' : ''}` : `${rating} star${rating !== 1 ? 's' : ''} selected`}
+                                        </p>
                                     </div>
 
                                     <div className="mb-5">
@@ -317,11 +331,11 @@ export default function ProductOverviewPage() {
                             <div className="space-y-4">
                                 {reviewsLoading ? (
                                     <div className="text-center py-12">
-                                        <p className="text-muted text-base">⏳ Loading reviews...</p>
+                                        <p className="text-muted text-base">Loading reviews...</p>
                                     </div>
                                 ) : reviews.length === 0 ? (
                                     <div className="text-center py-12 bg-neutral rounded-xl shadow-sm">
-                                        <p className="text-muted text-base">📝 No reviews yet. Be the first to review this product!</p>
+                                        <p className="text-muted text-base">No reviews yet. Be the first to review this product!</p>
                                     </div>
                                 ) : (
                                     reviews.map((review, index) => (

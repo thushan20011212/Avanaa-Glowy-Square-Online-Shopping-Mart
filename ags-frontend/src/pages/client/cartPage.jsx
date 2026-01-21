@@ -8,7 +8,7 @@ export default function CartPage() {
     const [cart, setCart] = useState(getCart());
 
     return (
-        <div className="w-full min-h-screen flex flex-col items-center bg-primary">
+        <div className="w-full min-h-screen flex flex-col items-center bg-primary pt-20">
             {/* Header Section with Cart Summary */}
             <div className="w-full bg-neutral shadow-md border-b-2 border-accent sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 py-4">

@@ -55,7 +55,7 @@ export default function CheckOutPage() {
     }
 
     async function placeOrder() {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         
         if (!token) {
             toast.error("You need to be logged in to place an order.");
@@ -88,8 +88,12 @@ export default function CheckOutPage() {
 
             if (res.status === 201 || res.status === 200) {
                 toast.success("Order placed successfully!");
+                // Clear cart from localStorage
                 localStorage.removeItem("cart");
-                navigate("/");
+                // Trigger cart update event to refresh the cart badge
+                window.dispatchEvent(new Event('cartUpdated'));
+                // Redirect to orders page to see the new order
+                navigate("/orders");
             }
         } catch (err) {
             console.error("Order creation error:", err);
@@ -99,7 +103,7 @@ export default function CheckOutPage() {
     }
 
     return (
-        <div className="w-full min-h-screen flex flex-col items-center px-4 pt-4 pb-28 md:pb-4 relative bg-primary">
+        <div className="w-full min-h-screen flex flex-col items-center px-4 pt-24 pb-28 md:pb-4 relative bg-primary">
             {/* Desktop Summary Card */}
             <div className="z-50 hidden w-full md:w-[600px] md:max-w-[600px] mb-6 p-6 bg-neutral rounded-lg shadow-lg md:flex flex-col">
                 <h2 className="text-xl md:text-2xl font-bold text-secondary mb-4">Order Summary</h2>

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import ProductCard from '../../components/productCard';
 import Loading from '../../components/loading';
+import { BsSearch } from 'react-icons/bs';
 
 export default function SearchProductPage() {
     const [products, setProducts] = useState([]);
@@ -9,7 +10,7 @@ export default function SearchProductPage() {
     const [query, setQuery] = useState("");
 
     return (
-        <div className="w-full min-h-screen bg-primary">
+        <div className="w-full min-h-screen bg-primary pt-20">
             {/* Search Header */}
             <div className="w-full bg-neutral border-b border-accent/20">
                 <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
@@ -26,7 +27,7 @@ export default function SearchProductPage() {
                             <div className="relative">
                                 <input
                                     type="text"
-                                    placeholder="Search by product name, brand, or category..."
+                                    placeholder="Search by product name..."
                                     value={query}
                                     onChange={async (e) => {
                                         setQuery(e.target.value);
@@ -51,7 +52,7 @@ export default function SearchProductPage() {
                                     className="w-full h-14 px-6 pr-12 border-2 border-accent rounded-xl text-base bg-primary focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition shadow-sm"
                                 />
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 text-2xl text-muted">
-                                    🔍
+                                    <BsSearch />
                                 </div>
                             </div>
                         </div>
@@ -77,7 +78,7 @@ export default function SearchProductPage() {
                     <div className="flex flex-col items-center justify-center py-20 space-y-6">
                         <h3 className="text-2xl font-bold text-secondary">Start Your Search</h3>
                         <p className="text-muted text-center max-w-md">
-                            Enter a product name, brand, or category in the search box above to find what you're looking for
+                            Enter a product name, similar name in the search box above to find what you're looking for
                         </p>
                     </div>
                 ) : products.length === 0 ? (

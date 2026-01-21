@@ -4,7 +4,7 @@ export default function AboutPage() {
     const navigate = useNavigate();
 
     return (
-        <div className="w-full min-h-screen bg-primary">
+        <div className="w-full min-h-screen bg-primary pt-20">
             
             {/* Hero Section */}
             <div className="w-full bg-neutral border-b border-accent/20">
