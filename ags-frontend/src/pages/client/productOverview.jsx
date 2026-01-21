@@ -140,7 +140,7 @@ export default function ProductOverviewPage() {
                                     {/* Product ID & Description */}
                                     <div className="border-t border-accent pt-4">
                                         <p className="text-xs md:text-sm text-muted mb-3">
-                                            <span className="font-semibold text-secondary">SKU:</span> {product.productId}
+                                            <span className="font-semibold text-secondary">Product ID:</span> {product.productId}
                                         </p>
                                         <p className="text-sm md:text-base text-muted leading-relaxed">
                                             {product.description}
